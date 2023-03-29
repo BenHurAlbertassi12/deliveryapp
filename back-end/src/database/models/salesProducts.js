@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     quantity: { type: DataTypes.INTEGER, allowNull: false}
   }, {
     sequelize,
-    modelName: 'sales_products',
+    // modelName: 'salesProducts',
     underscored: true,
     timestamps: false,
-    tableName: 'sales_products',
+    tableName: 'salesProducts',
   });
   SalesProducts.associate = function(models) {
     models.Sales.belongsToMany(models.Products, {as: 'products', through: SalesProducts, foreignKey: 'salesId', otherKey: 'productsId'});

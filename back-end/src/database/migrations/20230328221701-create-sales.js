@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'users',
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.DECIMAL(9, 2),
         allowNull: false
       },
-      delivery_price: {
+      delivery_address: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -50,16 +50,6 @@ module.exports = {
         allowNull: false,
         defaultValue: 'pending'
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW
-      }
     });
   },
 
