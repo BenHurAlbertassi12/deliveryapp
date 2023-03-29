@@ -5,6 +5,14 @@ function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setError('');
+  };
 
   const addName = (event) => {
     setName(event.target.value);
@@ -18,10 +26,27 @@ function RegisterForm() {
     setPassword(event.target.value);
   };
 
+  const n5 = 5;
+  const n6 = 6;
+  const n12 = 12;
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    setError('Erro ao cadastrar o usuário.');
+    // Verifica se os dados do formulário são válidos
+    if (
+      name.length < n12
+      || !email.includes('@')
+      || !email.includes('.')
+      || email.length < n5
+      || password.length < n6
+    ) {
+      resetForm();
+      setError('Dados inválidos');
+    } else {
+      resetForm();
+      setSuccessMessage('Usuário cadastrado com sucesso!');
+    }
   };
 
   return (
@@ -66,10 +91,10 @@ function RegisterForm() {
       >
         {error}
       </div>
+
+      {successMessage && <div>{successMessage}</div>}
     </form>
   );
 }
 
 export default RegisterForm;
-
-// Página para não dar erro 404 enquanto passa no R6
