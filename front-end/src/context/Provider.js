@@ -14,6 +14,14 @@ function Provider({ children }) {
     event.preventDefault();
   };
 
+  const hideErrorMessage = async () => {
+    const response = await fetch('/login');
+    const notFoundHttpStatus = 404;
+
+    if (response.ok) return false;
+    if (response.status === notFoundHttpStatus) return true;
+  };
+
   const context = useMemo(() => ({
     email,
     setEmailText,
@@ -21,6 +29,7 @@ function Provider({ children }) {
     password,
     setPasswordText,
     handleButtonClick,
+    hideErrorMessage,
   }), [
     email,
     setEmailText,
