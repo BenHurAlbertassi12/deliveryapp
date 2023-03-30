@@ -8,7 +8,7 @@ export default function LoginButton() {
   return (
     <button
       data-testid="common_login__button-login"
-      type="button"
+      type="submit"
       id="button-login"
     >
       Login

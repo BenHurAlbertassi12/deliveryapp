@@ -10,12 +10,17 @@ function Provider({ children }) {
     func(value); // Pode utilizar em qualquer input, ao usar o setNOMEINPUT vai saber o que fazer com o useState
   };
 
+  const handleButtonClick = (event) => {
+    event.preventDefault();
+  };
+
   const context = useMemo(() => ({
     email,
     setEmailText,
     handleInput,
     password,
     setPasswordText,
+    handleButtonClick,
   }), [
     email,
     setEmailText,
