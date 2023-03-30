@@ -5,6 +5,15 @@ import AppContext from './Context';
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
   const [password, setPasswordText] = useState('');
+  const [isButtonDisabled, setButtonDisabled] = useState(true);
+
+  const addEmail = (event) => {
+    setEmailText(event.target.value);
+  };
+
+  const addPassword = (event) => {
+    setPasswordText(event.target.value);
+  };
 
   const handleInput = ({ target: { value } }, func) => {
     func(value); // Pode utilizar em qualquer input, ao usar o setNOMEINPUT vai saber o que fazer com o useState
@@ -29,9 +38,15 @@ function Provider({ children }) {
     password,
     setPasswordText,
     handleButtonClick,
+    setButtonDisabled,
+    isButtonDisabled,
+    addEmail,
+    addPassword,
     hideErrorMessage,
   }), [
     email,
+    isButtonDisabled,
+    setButtonDisabled,
     setEmailText,
     password,
     setPasswordText,

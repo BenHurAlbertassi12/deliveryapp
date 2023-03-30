@@ -3,7 +3,7 @@ import AppContext from '../../context/Context';
 
 // Req2
 export default function LoginInputPassword() {
-  const { password, setPasswordText, handleInput } = useContext(AppContext);
+  const { password, addPassword } = useContext(AppContext);
   // Usar este ^ modelo para todos os inputs porque assim usa uma mesma função handleInput (no Provider)
   return (
     <label htmlFor="input-password">
@@ -14,7 +14,7 @@ export default function LoginInputPassword() {
         id="input-password"
         placeholder="*****"
         value={ password }
-        onChange={ (newText) => handleInput(newText, setPasswordText) }
+        onChange={ addPassword }
       />
     </label>
   );
