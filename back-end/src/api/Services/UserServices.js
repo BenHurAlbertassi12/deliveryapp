@@ -25,7 +25,7 @@ const verifyUser = async (email, password) => {
     const findUser = await users.findOne({ where: { email, password: mashPass } });
     if (!findUser) {
         return null;
-}
+    }
     return true;
 };
 

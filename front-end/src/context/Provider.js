@@ -1,11 +1,24 @@
-import { useState, useMemo } from 'react';
+import {
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import AppContext from './Context';
 
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
   const [password, setPasswordText] = useState('');
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const history = useNavigate();
 
   const addEmail = (event) => {
     setEmailText(event.target.value);
@@ -31,6 +44,21 @@ function Provider({ children }) {
     if (response.status === notFoundHttpStatus) return true;
   };
 
+  const handleRegister = useCallback(async () => {
+    try {
+      const hashedPassword = md5(formData.password); // Converte a senha para hash md5
+      const response = await axios.post('http://localhost:3000/register', {
+        name: formData.name,
+        email: formData.email,
+        password: hashedPassword, // Envia a senha convertida para o back-end
+      });
+      history.push('/customer/products');
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [formData, history]);
+
   const context = useMemo(() => ({
     email,
     setEmailText,
@@ -43,7 +71,10 @@ function Provider({ children }) {
     addEmail,
     addPassword,
     hideErrorMessage,
+    setFormData,
+    handleRegister,
   }), [
+    handleRegister,
     email,
     isButtonDisabled,
     setButtonDisabled,

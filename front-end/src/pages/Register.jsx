@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
+import AppContext from '../context/Context';
 
-function RegisterForm() {
+const n6 = 4;
+const n12 = 12;
+
+function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [formValid, setFormValid] = useState(false);
+  const { handleRegister } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  const isFormValid = () => name.length >= n12
+    && email.includes('@')
+    && email.includes('.')
+    && password.length > n6;
 
   const resetForm = () => {
     setName('');
@@ -16,21 +29,20 @@ function RegisterForm() {
 
   const addName = (event) => {
     setName(event.target.value);
+    setFormValid(isFormValid());
   };
 
   const addEmail = (event) => {
     setEmail(event.target.value);
+    setFormValid(isFormValid());
   };
 
   const addPassword = (event) => {
     setPassword(event.target.value);
+    setFormValid(isFormValid());
   };
 
-  const n5 = 5;
-  const n6 = 6;
-  const n12 = 12;
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Verifica se os dados do formulário são válidos
@@ -38,16 +50,24 @@ function RegisterForm() {
       name.length < n12
       || !email.includes('@')
       || !email.includes('.')
-      || email.length < n5
-      || password.length < n6
+      || password.length <= n6
     ) {
       resetForm();
       setError('Dados inválidos');
     } else {
-      resetForm();
-      setSuccessMessage('Usuário cadastrado com sucesso!');
+      // Chama a função handleRegister com as informações de registro
+      try {
+        await handleRegister(name, email, password);
+        resetForm();
+        setSuccessMessage('Usuário cadastrado com sucesso!');
+        setRedirect(true); // define o estado de redirecionamento para true
+      } catch {
+        setError('Erro ao cadastrar usuário');
+      }
     }
   };
+
+  const onSubmit = () => navigate('/customer/products');
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -81,7 +101,12 @@ function RegisterForm() {
         />
       </label>
 
-      <button type="submit" data-testid="common_register__button-register">
+      <button
+        type="submit"
+        data-testid="common_register__button-register"
+        disabled={ !formValid }
+        onClick={ onSubmit }
+      >
         Cadastrar
       </button>
 
@@ -97,4 +122,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default Register;
