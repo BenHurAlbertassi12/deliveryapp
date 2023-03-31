@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const md5 = require('md5');
-const { users } = require('../../database/models/users');
+const { User } = require('../../database/models');
+const { createToken } = require('../utils/Token');
 
 // Schema para validação de novos usuarios:
 const newUserSchemas = Joi.object({
@@ -18,15 +19,18 @@ const loginSchemas = Joi.object({
 const verifyUser = async (email, password) => {
     const validate = loginSchemas.validate({ email, password });
     if (validate.error) {
-        return validate.error;
+        return validate;
     }
     const mashPass = md5(password);
-    console.log(mashPass);
-    const findUser = await users.findOne({ where: { email, password: mashPass } });
-    if (!findUser) {
-        return null;
-    }
-    return true;
+    const user = await User.findOne(
+        { attributes: { exclude: ['password'] },
+        where: { email, password: mashPass } },
+);
+if (!user) {
+    return null;
+}
+const token = createToken(user.dataValues);
+    return { ...user.dataValues, token };
 };
 
 // Função para criação de usuario:
@@ -35,12 +39,12 @@ const newUser = async (name, email, password) => {
     if (validate.error) {
         return validate.error;
     }
-    const findUser = await users.findOne({ where: { email } });
+    const findUser = await User.findOne({ where: { email } });
     if (findUser) {
         return null;
     }
     const mashPass = md5(password);
-    await users.create({ name, email, password: mashPass, role: 'user' });
+    await User.create({ name, email, password: mashPass, role: 'user' });
     return true;
 };
 

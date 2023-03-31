@@ -12,7 +12,9 @@ import AppContext from './Context';
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
   const [password, setPasswordText] = useState('');
+  const [fullname, setFullnameText] = useState('');
   const [isButtonDisabled, setButtonDisabled] = useState(true);
+  const [isMessageHidden, setMessageHidden] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -62,14 +64,18 @@ function Provider({ children }) {
   const context = useMemo(() => ({
     email,
     setEmailText,
+    addEmail,
     handleInput,
+    handleButtonClick,
+    isButtonDisabled,
+    setButtonDisabled,
     password,
     setPasswordText,
-    handleButtonClick,
-    setButtonDisabled,
-    isButtonDisabled,
-    addEmail,
     addPassword,
+    isMessageHidden,
+    setMessageHidden,
+    fullname,
+    setFullnameText,
     hideErrorMessage,
     setFormData,
     handleRegister,
@@ -81,6 +87,8 @@ function Provider({ children }) {
     setEmailText,
     password,
     setPasswordText,
+    fullname,
+    isMessageHidden,
   ]);
 
   // children são os elementos/o <App>

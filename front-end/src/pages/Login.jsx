@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
+import EmailInput from '../components/EmailInput';
 import ErrorMessage from '../components/loginPage/ErrorMessage';
 import LoginButton from '../components/loginPage/LoginButton';
-import LoginInputEmail from '../components/loginPage/LoginInputEmail';
-import LoginInputPassword from '../components/loginPage/LoginInputPassword';
 import RegisterButton from '../components/loginPage/RegisterButton';
+import PasswordInput from '../components/PasswordInput';
 import AppContext from '../context/Context';
 
 // Req2
@@ -17,8 +17,8 @@ export default function Login() {
         onSubmit={ handleButtonClick }
       >
         <h4>Oi do Login</h4>
-        <LoginInputEmail />
-        <LoginInputPassword />
+        <EmailInput />
+        <PasswordInput />
         <LoginButton />
         <RegisterButton />
         <ErrorMessage />

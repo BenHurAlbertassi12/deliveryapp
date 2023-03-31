@@ -1,25 +1,22 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  const Products = sequelize.define('products', {
+  const Products = sequelize.define('Products', {
     id: {
-        type: INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
     },
     name: {
-      type: STRING,
+      type: DataTypes.STRING,
       allowNull: false
     },
     price: {
-      type: DECIMAL(4, 2),
+      type: DataTypes.DECIMAL(4, 2),
       allowNull: false
     },
     url_image: {
-      type: STRING(200),
+      type: DataTypes.STRING(200),
       allowNull: true
     },
   }, {
@@ -29,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
   Products.associate = function(models) {
-    Products.hasMany(models.SalesProducts, {as: 'salesProducts'})
+    Products.hasMany(models.SalesProduct, { foreignKey: 'productId', as: 'salesProducts'});
   };
   return Products;
 };
