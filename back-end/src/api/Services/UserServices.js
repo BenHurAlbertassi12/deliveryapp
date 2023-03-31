@@ -37,15 +37,16 @@ const token = createToken(user.dataValues);
 const newUser = async (name, email, password) => {
     const validate = newUserSchemas.validate({ name, email, password });
     if (validate.error) {
-        return validate.error;
+        return validate;
     }
     const findUser = await User.findOne({ where: { email } });
     if (findUser) {
         return null;
     }
     const mashPass = md5(password);
-    await User.create({ name, email, password: mashPass, role: 'user' });
-    return true;
+    const data = await User.create({ name, email, password: mashPass, role: 'user' });
+    const { password: _, ...dataValues } = data.dataValues;
+    return { ...dataValues };
 };
 
 module.exports = {
