@@ -44,7 +44,7 @@ const newUser = async (name, email, password) => {
         return null;
     }
     const mashPass = md5(password);
-    const data = await User.create({ name, email, password: mashPass, role: 'user' });
+    const data = await User.create({ name, email, password: mashPass, role: 'customer' });
     const { password: _, ...dataValues } = data.dataValues;
     return { ...dataValues };
 };

@@ -9,7 +9,8 @@ export default function ErrorMessage() {
       data-testid="common_login__element-invalid-email"
       hidden={ isMessageHidden }
     >
-      Elemento que deve ser oculto (Mensagem de erro)
+      {/* Elemento que deve ser oculto (Mensagem de erro) */}
+      Usuario ou Password não encontrado!
     </p>
   );
 }

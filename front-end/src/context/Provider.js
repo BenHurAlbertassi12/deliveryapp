@@ -3,11 +3,10 @@ import {
   useMemo,
   useCallback,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import AppContext from './Context';
+import APIFetch from '../Utils/API';
 
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
@@ -15,12 +14,6 @@ function Provider({ children }) {
   const [fullname, setFullnameText] = useState('');
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isMessageHidden, setMessageHidden] = useState(true);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const history = useNavigate();
 
   const addEmail = (event) => {
     setEmailText(event.target.value);
@@ -46,20 +39,22 @@ function Provider({ children }) {
     if (response.status === notFoundHttpStatus) return true;
   };
 
-  const handleRegister = useCallback(async () => {
+  const handleRegister = useCallback(async (name, mail, pass) => {
     try {
-      const hashedPassword = md5(formData.password); // Converte a senha para hash md5
-      const response = await axios.post('http://localhost:3000/register', {
-        name: formData.name,
-        email: formData.email,
-        password: hashedPassword, // Envia a senha convertida para o back-end
+      // const hashedPassword = md5(formData.password) - Deixei a conversão por conta do back-end - Vinicius; // Converte a senha para hash md5
+      const response = await APIFetch('post', 'register', {
+        name,
+        email: mail,
+        password: pass,
       });
-      history.push('/customer/products');
-      console.log(response.data);
+      // Se deixar o push pra customer tem que gerar o token no cadastro do usuario, mandei ele pra realizar o login
+      // history.push('/customer/products');
+      return response.data;
     } catch (error) {
-      console.log(error);
+      setMessageHidden(false);
+      throw new Error();
     }
-  }, [formData, history]);
+  }, []);
 
   const context = useMemo(() => ({
     email,
@@ -77,7 +72,6 @@ function Provider({ children }) {
     fullname,
     setFullnameText,
     hideErrorMessage,
-    setFormData,
     handleRegister,
   }), [
     handleRegister,

@@ -10,9 +10,9 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  // const [successMessage, setSuccessMessage] = useState('');
   const [formValid, setFormValid] = useState(false);
-  const { handleRegister } = useContext(AppContext);
+  const { handleRegister, isMessageHidden, setMessageHidden } = useContext(AppContext);
   const navigate = useNavigate();
 
   const isFormValid = () => name.length >= n12
@@ -52,22 +52,26 @@ function Register() {
       || !email.includes('.')
       || password.length <= n6
     ) {
+      console.log('Dados inválidos');
       resetForm();
       setError('Dados inválidos');
     } else {
       // Chama a função handleRegister com as informações de registro
+      resetForm();
       try {
+        // envia a requisição pro Handle dentro do context
         await handleRegister(name, email, password);
-        resetForm();
-        setSuccessMessage('Usuário cadastrado com sucesso!');
-        setRedirect(true); // define o estado de redirecionamento para true
-      } catch {
-        setError('Erro ao cadastrar usuário');
+        // A mensagem de sucesso não aparece devido o redirecionamento
+        // setSuccessMessage('Usuário cadastrado com sucesso!');
+        setMessageHidden(true);
+        navigate('/customer/products');
+      } catch (err) {
+        setError('Email já cadastrado');
       }
     }
   };
 
-  const onSubmit = () => navigate('/customer/products');
+  // const onSubmit = () => navigate('/login');
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -105,19 +109,20 @@ function Register() {
         type="submit"
         data-testid="common_register__button-register"
         disabled={ !formValid }
-        onClick={ onSubmit }
+        onClick={ handleSubmit }
       >
         Cadastrar
       </button>
 
       <div
         data-testid="common_register__element-invalid_register"
-        style={ { display: error ? 'block' : 'none' } }
+        style={ { display: !isMessageHidden ? 'block' : 'none' } }
       >
         {error}
       </div>
 
-      {successMessage && <div>{successMessage}</div>}
+      {/* Essa parte não renderiza por causa do redirecionamento
+      {successMessage && <div>{successMessage}</div>} */}
     </form>
   );
 }
