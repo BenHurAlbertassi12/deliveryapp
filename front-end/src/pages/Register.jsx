@@ -109,7 +109,6 @@ function Register() {
         type="submit"
         data-testid="common_register__button-register"
         disabled={ !formValid }
-        onClick={ handleSubmit }
       >
         Cadastrar
       </button>

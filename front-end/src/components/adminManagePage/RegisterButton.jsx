@@ -6,7 +6,7 @@ import React from 'react';
 export default function RegisterButton() {
   return (
     <button
-      data-testid="admin_manage__select-role"
+      data-testid="admin_manage__button-register"
       type="submit"
     >
       Cadastrar

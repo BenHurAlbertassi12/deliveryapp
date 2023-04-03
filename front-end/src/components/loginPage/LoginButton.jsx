@@ -11,18 +11,23 @@ export default function LoginButton() {
   const emailValid = /\S+@\S+\.\S+/.test(email);
   const minNumber = 6;
 
-  const onSubmit = async () => {
+  const handleLoginSubmit = async () => {
     try {
       const payload = {
         email,
         password,
       };
       const response = await APIFetch('post', 'login', payload);
+      console.log(response);
       if (response.data.role === 'customer') {
         navigate('/customer/products');
       }
+      if (response.data.role === 'administrator') {
+        navigate('/admin/manage');
+      }
     } catch (error) {
       setMessageHidden(false);
+      throw new Error();
     }
   };
 
@@ -32,7 +37,7 @@ export default function LoginButton() {
       type="submit"
       id="button-login"
       disabled={ !(password.length >= minNumber && emailValid) }
-      onClick={ onSubmit }
+      onClick={ handleLoginSubmit }
     >
       Login
     </button>

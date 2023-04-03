@@ -29,6 +29,7 @@ const verifyUser = async (email, password) => {
 if (!user) {
     return null;
 }
+
 const token = createToken(user.dataValues);
     return { ...user.dataValues, token };
 };
