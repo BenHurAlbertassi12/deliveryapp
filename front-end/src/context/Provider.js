@@ -1,12 +1,10 @@
 import {
   useState,
   useMemo,
-  useCallback,
 } from 'react';
 
 import PropTypes from 'prop-types';
 import AppContext from './Context';
-import APIFetch from '../Utils/API';
 
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
@@ -14,6 +12,35 @@ function Provider({ children }) {
   const [fullname, setFullnameText] = useState('');
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isMessageHidden, setMessageHidden] = useState(true);
+
+  // Requisitos product
+  const [cart, setCart] = useState([]);
+  const [order, setOrder] = useState([]);
+
+  const altQuantidade = (altProd) => {
+    const updatedCart = altProd.quantity === 0
+      ? cart.filter((filterProd) => filterProd.id !== altProd.id)
+      : cart.map((prod) => {
+        if (prod.id === altProd.id) {
+          prod.quantity = altProd.quantity;
+        }
+        return prod;
+      });
+
+    setCart(updatedCart);
+    console.log(updatedCart);
+  };
+
+  const totalValues = () => {
+    const totalValue = cart.reduce((acc, cur) => {
+      const price = Number(cur.price);
+      const value = cur.quantity * price;
+      return acc + value;
+    }, 0);
+    return totalValue;
+  };
+
+  // Fim requisitos products
 
   const addEmail = (event) => {
     setEmailText(event.target.value);
@@ -39,24 +66,9 @@ function Provider({ children }) {
     if (response.status === notFoundHttpStatus) return true;
   };
 
-  const handleRegister = useCallback(async (name, mail, pass) => {
-    try {
-      // const hashedPassword = md5(formData.password) - Deixei a conversão por conta do back-end - Vinicius; // Converte a senha para hash md5
-      const response = await APIFetch('post', 'register', {
-        name,
-        email: mail,
-        password: pass,
-      });
-      // Se deixar o push pra customer tem que gerar o token no cadastro do usuario, mandei ele pra realizar o login
-      // history.push('/customer/products');
-      return response.data;
-    } catch (error) {
-      setMessageHidden(false);
-      throw new Error();
-    }
-  }, []);
-
   const context = useMemo(() => ({
+    altQuantidade,
+    totalValues,
     email,
     setEmailText,
     addEmail,
@@ -72,9 +84,12 @@ function Provider({ children }) {
     fullname,
     setFullnameText,
     hideErrorMessage,
-    handleRegister,
+
   }), [
-    handleRegister,
+    order,
+    setOrder,
+    // altQuantidade,
+    // getTotalValue,
     email,
     isButtonDisabled,
     setButtonDisabled,
@@ -82,8 +97,7 @@ function Provider({ children }) {
     password,
     setPasswordText,
     fullname,
-    isMessageHidden,
-  ]);
+    isMessageHidden]);
 
   // children são os elementos/o <App>
   return (
@@ -98,3 +112,8 @@ Provider.propTypes = {
 }.isRequired;
 
 export default Provider;
+
+/*
+A função handleRegister foi movida para Register pois, estava dando conflito,
+la ela entrou sem problemas
+*/

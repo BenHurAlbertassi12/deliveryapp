@@ -1,33 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+  Link,
+} from 'react-router-dom';
+import useLocalStorage from '../Utils/useLocalStorage';
 
 function Navbar() {
+  const user = useLocalStorage('user');
+  const { user: name } = user;
+  console.log(`nome aqui = ${name} = resultado`);
+
+  const handleExit = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
   return (
     <div>
-      <Link
-        to="/customer/products"
-        data-testid="customer_products__element-navbar-link-products"
-      >
-        PRODUTOS
-      </Link>
-      <Link
-        to="/customer/orders"
-        data-testid="customer_products__element-navbar-link-orders"
-      >
-        MEUS PEDIDOS
-      </Link>
-      <div
-        data-testid="customer_products__element-navbar-user-full-name"
-      >
-        {/* Nome está generico por enquanto */}
-        <h3> name </h3>
-
+      <div>
+        <Link
+          to="/customer/products"
+          data-testid="customer_products__element-navbar-link-products"
+        >
+          PRODUTOS
+        </Link>
+        <Link
+          to="/customer/orders"
+          data-testid="customer_products__element-navbar-link-orders"
+        >
+          MEUS PEDIDOS
+        </Link>
+        <p data-testid="customer_products__element-navbar-user-full-name">
+          {Object.keys(user || {}).length ? user.name : 'Nome'}
+        </p>
       </div>
       <button type="button">
         <Link
           to="/"
           data-testid="customer_products__element-navbar-link-logout"
-        // onClick={ }
+          onClick={ handleExit }
         >
           Sair
         </Link>
@@ -35,5 +44,4 @@ function Navbar() {
     </div>
   );
 }
-
 export default Navbar;

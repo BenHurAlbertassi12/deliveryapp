@@ -5,6 +5,7 @@ import AdminManagement from './pages/AdminManagement';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
+import Orders from './pages/Orders';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         element={ <AdminManagement /> }
       />
       <Route path="/customer/products" element={ <Products /> } />
+      <Route path="/customer/orders" element={ <Orders /> } />
     </Routes>
   );
 }

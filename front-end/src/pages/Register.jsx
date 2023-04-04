@@ -1,24 +1,43 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import AppContext from '../context/Context';
+import APIFetch from '../Utils/API';
 
-const n6 = 4;
+const n6 = 6;
 const n12 = 12;
 
 function Register() {
-  const [name, setName] = useState('');
+  const [user, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  // const [successMessage, setSuccessMessage] = useState('');
   const [formValid, setFormValid] = useState(false);
-  const { handleRegister, isMessageHidden, setMessageHidden } = useContext(AppContext);
+  const { isMessageHidden, setMessageHidden } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const isFormValid = () => name.length >= n12
+  const isFormValid = () => user.length >= n12
     && email.includes('@')
     && email.includes('.')
     && password.length > n6;
+
+  const handleRegister = useCallback(
+    async (name, mail, pass) => {
+      console.log('primeiro', name, mail, pass);
+      try {
+        const response = await APIFetch('post', 'register', {
+          name,
+          email: mail,
+          password: pass,
+        });
+        return response.data;
+      } catch (err) {
+        console.log('reposta erro', err);
+        setMessageHidden(false);
+        throw new Error();
+      }
+    },
+    [setMessageHidden],
+  );
 
   const resetForm = () => {
     setName('');
@@ -44,10 +63,9 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Verifica se os dados do formulário são válidos
+    console.log('linha 63');
     if (
-      name.length < n12
+      user.length < n12
       || !email.includes('@')
       || !email.includes('.')
       || password.length <= n6
@@ -56,22 +74,16 @@ function Register() {
       resetForm();
       setError('Dados inválidos');
     } else {
-      // Chama a função handleRegister com as informações de registro
       resetForm();
       try {
-        // envia a requisição pro Handle dentro do context
-        await handleRegister(name, email, password);
-        // A mensagem de sucesso não aparece devido o redirecionamento
-        // setSuccessMessage('Usuário cadastrado com sucesso!');
-        setMessageHidden(true);
+        await handleRegister(user, email, password);
         navigate('/customer/products');
+        setMessageHidden(true);
       } catch (err) {
         setError('Email já cadastrado');
       }
     }
   };
-
-  // const onSubmit = () => navigate('/login');
 
   return (
     <form onSubmit={ handleSubmit }>
@@ -80,7 +92,7 @@ function Register() {
         <input
           type="text"
           data-testid="common_register__input-name"
-          value={ name }
+          value={ user }
           onChange={ addName }
         />
       </label>
@@ -109,6 +121,7 @@ function Register() {
         type="submit"
         data-testid="common_register__button-register"
         disabled={ !formValid }
+        onClick={ handleSubmit }
       >
         Cadastrar
       </button>
@@ -119,9 +132,6 @@ function Register() {
       >
         {error}
       </div>
-
-      {/* Essa parte não renderiza por causa do redirecionamento
-      {successMessage && <div>{successMessage}</div>} */}
     </form>
   );
 }
