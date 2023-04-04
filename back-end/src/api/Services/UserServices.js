@@ -5,7 +5,7 @@ const { createToken } = require('../utils/Token');
 
 // Schema para validação de novos usuarios:
 const newUserSchemas = Joi.object({
-    user: Joi.string().min(12).required(),
+    name: Joi.string().min(12).required(),
     email: Joi.string().email({ minDomainSegments: 2, tlds: false }).required(),
     password: Joi.string().min(6).required(),
 });
@@ -36,7 +36,7 @@ const token = createToken(user.dataValues);
 
 // Função para criação de usuario:
 const newUser = async (user, email, password) => {
-    const validate = newUserSchemas.validate({ user, email, password });
+    const validate = newUserSchemas.validate({ name: user, email, password });
     if (validate.error) {
         return validate;
     }
@@ -45,7 +45,7 @@ const newUser = async (user, email, password) => {
         return null;
     }
     const mashPass = md5(password);
-    const data = await User.create({ user, email, password: mashPass, role: 'customer' });
+    const data = await User.create({ name: user, email, password: mashPass, role: 'customer' });
     const { password: _, ...dataValues } = data.dataValues;
     // return { ...dataValues };
     const token = createToken(dataValues);

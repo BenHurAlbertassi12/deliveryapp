@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
 
-const n6 = 6;
+import useLocalStorage from '../Utils/useLocalStorage';
+
+const n4 = 4;
 const n12 = 12;
 
 function Register() {
+  const setUserStorage = useLocalStorage('user')[1];
   const [user, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,25 +21,23 @@ function Register() {
   const isFormValid = () => user.length >= n12
     && email.includes('@')
     && email.includes('.')
-    && password.length > n6;
+    && password.length > n4;
 
   const handleRegister = useCallback(
     async (name, mail, pass) => {
-      console.log('primeiro', name, mail, pass);
       try {
         const response = await APIFetch('post', 'register', {
           name,
           email: mail,
           password: pass,
         });
-        return response.data;
+        setUserStorage(response.data);
       } catch (err) {
-        console.log('reposta erro', err);
         setMessageHidden(false);
         throw new Error();
       }
     },
-    [setMessageHidden],
+    [setMessageHidden, setUserStorage],
   );
 
   const resetForm = () => {
@@ -63,14 +64,12 @@ function Register() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('linha 63');
     if (
       user.length < n12
       || !email.includes('@')
       || !email.includes('.')
-      || password.length <= n6
+      || password.length <= n4
     ) {
-      console.log('Dados inválidos');
       resetForm();
       setError('Dados inválidos');
     } else {

@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../../context/Context';
-import APIFetch from '../../Utils/API';
+
+import useLocalStorage from '../../Utils/useLocalStorage';
 
 export default function LoginButton() {
   const navigate = useNavigate();
+  const setUserStorage = useLocalStorage('user')[1];
 
-  const { email, password, setMessageHidden } = useContext(AppContext);
+  const { getAPI, email, password, setMessageHidden } = useContext(AppContext);
 
   const emailValid = /\S+@\S+\.\S+/.test(email);
   const minNumber = 6;
@@ -17,8 +19,8 @@ export default function LoginButton() {
         email,
         password,
       };
-      const response = await APIFetch('post', 'login', payload);
-      console.log(response);
+      const response = await getAPI('post', 'login', payload);
+      setUserStorage(response.data);
       if (response.data.role === 'customer') {
         navigate('/customer/products');
       }

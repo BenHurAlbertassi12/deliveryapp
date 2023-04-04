@@ -5,6 +5,7 @@ import {
 
 import PropTypes from 'prop-types';
 import AppContext from './Context';
+import APIFetch from '../Utils/API';
 
 function Provider({ children }) {
   const [email, setEmailText] = useState('');
@@ -28,7 +29,7 @@ function Provider({ children }) {
       });
 
     setCart(updatedCart);
-    console.log(updatedCart);
+    console.log(updatedCart, 'cart');
   };
 
   const totalValues = () => {
@@ -41,6 +42,15 @@ function Provider({ children }) {
   };
 
   // Fim requisitos products
+
+  const getAPI = async (method, endpoint, payload) => {
+    try {
+      const response = await APIFetch(method, endpoint, payload);
+      return response;
+    } catch (err) {
+      throw new Error();
+    }
+  };
 
   const addEmail = (event) => {
     setEmailText(event.target.value);
@@ -84,12 +94,10 @@ function Provider({ children }) {
     fullname,
     setFullnameText,
     hideErrorMessage,
-
+    getAPI,
   }), [
     order,
     setOrder,
-    // altQuantidade,
-    // getTotalValue,
     email,
     isButtonDisabled,
     setButtonDisabled,
@@ -97,7 +105,8 @@ function Provider({ children }) {
     password,
     setPasswordText,
     fullname,
-    isMessageHidden]);
+    isMessageHidden,
+    getAPI]);
 
   // children são os elementos/o <App>
   return (

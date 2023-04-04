@@ -4,9 +4,7 @@ import {
 import useLocalStorage from '../Utils/useLocalStorage';
 
 function Navbar() {
-  const user = useLocalStorage('user');
-  const { user: name } = user;
-  console.log(`nome aqui = ${name} = resultado`);
+  const user = useLocalStorage('user')[0];
 
   const handleExit = () => {
     localStorage.clear();

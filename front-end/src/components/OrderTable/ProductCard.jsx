@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { /* useContext, useEffect, */ useState } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from '../../context/Context';
+// import AppContext from '../../context/Context';
 
 function ProductCard({ product }) {
   const { id, name, price, url_image: urlImage } = product;
 
   const [quantity, setQuantity] = useState(0);
-  const { altQuantidade } = useContext(AppContext);
+  // const { altQuantidade } = useContext(AppContext);
 
-  useEffect(
-    () => altQuantidade({ ...product, quantity }),
-    [altQuantidade, product, quantity],
-  );
+  // useEffect(
+  //   () => altQuantidade({ ...product, quantity }),
+  //   [altQuantidade, product, quantity],
+  // );
   /*
 executa a função altQuantidade sempre que altQuantidade,
 product ou quantity mudarem. A função altQuantidade é executada com um objeto
@@ -29,6 +29,7 @@ para atualizar o carrinho de compras do requisito.
           data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ urlImage }
           alt={ name }
+          style={ { width: '100px' } }
         />
         <div>
           <div>
@@ -41,7 +42,8 @@ para atualizar o carrinho de compras do requisito.
           <button
             type="button"
             id="decrease"
-            onClick={ () => {
+            onClick={ (target) => {
+              console.log('oi eu sou o target', target);
               if (quantity > 0) setQuantity(quantity - 1);
             } }
             data-testid={ `customer_products__button-card-rm-item-${id}` }
@@ -54,7 +56,9 @@ para atualizar o carrinho de compras do requisito.
             min="0"
             data-testid={ `customer_products__input-card-quantity-${id}` }
             value={ quantity }
-            onChange={ ({ target }) => setQuantity(Number(target.value)) }
+            onChange={ ({ target }) => {
+              setQuantity(Number(target.value));
+            } }
           />
           <button
             type="button"

@@ -10,17 +10,18 @@ function Products() {
   const { totalValues } = useContext(AppContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const productDB = await APIFetch('get', 'products', '');
-        setProducts(productDB.data);
-      } catch (error) {
-        console.log(error);
-        localStorage.clear();
-        navigate('/login');
-      }
+  async function fetchProducts() {
+    try {
+      const productDB = await APIFetch('get', 'products', '');
+      setProducts(productDB.data);
+    } catch (error) {
+      console.log(error);
+      localStorage.clear();
+      navigate('/login');
     }
+  }
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 

@@ -14,6 +14,7 @@ const corsOptions = {
 const app = express();
 app.use(cors(corsOptions)); // Use this after the variable declaration
 app.use(express.json());
+app.use(express.static('public'));
 app.use(loginRoute);
 app.use(registerRoute);
 app.use(ProductRoutes);
