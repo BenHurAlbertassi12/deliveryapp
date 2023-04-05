@@ -7,23 +7,34 @@ import APIFetch from '../Utils/API';
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const { totalValues } = useContext(AppContext);
+  const { sumTotal } = useContext(AppContext);
   const navigate = useNavigate();
+  const [disable, setDisabled] = useState(true);
 
-  async function fetchProducts() {
-    try {
-      const productDB = await APIFetch('get', 'products', '');
-      setProducts(productDB.data);
-    } catch (error) {
-      console.log(error);
-      localStorage.clear();
-      navigate('/login');
-    }
-  }
+  const allowCartButton = () => {
+    if (sumTotal > 0) return setDisabled(false);
+    return setDisabled(true);
+  };
 
   useEffect(() => {
+    allowCartButton();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sumTotal]);
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const productDB = await APIFetch('get', 'products', '');
+        setProducts(productDB.data);
+      } catch (error) {
+        console.log(error);
+        localStorage.clear();
+        navigate('/login');
+      }
+    }
+
     fetchProducts();
-  }, []);
+  }, [navigate]);
 
   return (
     <div>
@@ -37,15 +48,12 @@ function Products() {
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ () => navigate('/customer/checkout') }
-        disabled={ totalValues() === 0 }
+        disabled={ disable }
       >
         Ver carrinho: R$
         {' '}
         <span data-testid="customer_products__checkout-bottom-value">
-          {totalValues().toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat
-          })}
+          { `${sumTotal.toString().replace('.', ',')}` }
         </span>
       </button>
     </div>

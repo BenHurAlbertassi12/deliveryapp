@@ -1,23 +1,28 @@
-import React, { /* useContext, useEffect, */ useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import AppContext from '../../context/Context';
+import AppContext from '../../context/Context';
 
 function ProductCard({ product }) {
   const { id, name, price, url_image: urlImage } = product;
-
   const [quantity, setQuantity] = useState(0);
-  // const { altQuantidade } = useContext(AppContext);
+  const { altQuantidade } = useContext(AppContext);
 
-  // useEffect(
-  //   () => altQuantidade({ ...product, quantity }),
-  //   [altQuantidade, product, quantity],
-  // );
+  useEffect(() => {
+    altQuantidade({ id, quantity, price });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity]);
   /*
 executa a função altQuantidade sempre que altQuantidade,
 product ou quantity mudarem. A função altQuantidade é executada com um objeto
 contendo as propriedades de product e a nova quantidade selecionada,
 para atualizar o carrinho de compras do requisito.
   */
+
+  const handleChange = (event) => {
+    if (Number(event.target.value) >= 0) {
+      setQuantity(Number(event.target.value));
+    }
+  };
 
   return (
     <div>
@@ -53,12 +58,10 @@ para atualizar o carrinho de compras do requisito.
 
           <input
             type="number"
-            min="0"
+            min={ 0 }
             data-testid={ `customer_products__input-card-quantity-${id}` }
-            value={ quantity }
-            onChange={ ({ target }) => {
-              setQuantity(Number(target.value));
-            } }
+            onChange={ handleChange }
+            value={ Number(quantity) }
           />
           <button
             type="button"

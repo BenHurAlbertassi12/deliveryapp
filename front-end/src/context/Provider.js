@@ -2,6 +2,7 @@ import {
   useState,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
 
 import PropTypes from 'prop-types';
@@ -15,6 +16,7 @@ function Provider({ children }) {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isMessageHidden, setMessageHidden] = useState(true);
   const [roleSelected, setRoleSelection] = useState('seller'); // R36 e 37
+  const [sumTotal, setSumTotal] = useState(0);
 
   const resetForm = () => {
     setFullnameText('');
@@ -27,28 +29,37 @@ function Provider({ children }) {
   const [cart, setCart] = useState([]);
   const [order, setOrder] = useState([]);
 
-  const altQuantidade = (altProd) => {
-    const updatedCart = altProd.quantity === 0
-      ? cart.filter((filterProd) => filterProd.id !== altProd.id)
-      : cart.map((prod) => {
-        if (prod.id === altProd.id) {
-          prod.quantity = altProd.quantity;
-        }
-        return prod;
-      });
+  const altQuantidade = useCallback((altProd) => {
+    const getId = cart.some(({ id }) => altProd.id === id);
+    if (!getId && altProd.counter > 0) return setCart([...cart, altProd]);
+    const additionProduct = cart.filter(({ id }) => id !== altProd.id);
+    if (altProd.counter === 0) return setCart([...additionProduct]);
+    return setCart([...additionProduct, altProd]);
+    // const updatedCart = altProd.quantity === 0
+    //   ? cart.filter((filterProd) => filterProd.id !== altProd.id)
+    //   : cart.map((prod) => {
+    //     if (prod.id === altProd.id) {
+    //       prod.quantity = altProd.quantity;
+    //     }
+    //     return prod;
+    //   });
+    // setCart(updatedCart);
+  }, [cart]);
 
-    setCart(updatedCart);
-    console.log(updatedCart, 'cart');
-  };
-
-  const totalValues = () => {
+  const totalValues = useCallback(() => {
     const totalValue = cart.reduce((acc, cur) => {
       const price = Number(cur.price);
       const value = cur.quantity * price;
       return acc + value;
     }, 0);
-    return totalValue;
-  };
+    console.log('total', totalValue);
+    return totalValue.toFixed(2);
+  }, [cart]);
+
+  useEffect(() => {
+    setSumTotal(totalValues());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
 
   // Fim requisitos products
 
@@ -87,7 +98,8 @@ function Provider({ children }) {
   };
 
   const context = useMemo(() => ({
-    altQuantidade,
+    order,
+    setOrder,
     totalValues,
     email,
     setEmailText,
@@ -108,9 +120,11 @@ function Provider({ children }) {
     resetForm,
     handleButtonClick,
     getAPI,
+    sumTotal,
+    setSumTotal,
+    altQuantidade,
   }), [
     order,
-    setOrder,
     email,
     isButtonDisabled,
     setButtonDisabled,
@@ -122,6 +136,10 @@ function Provider({ children }) {
     roleSelected,
     setRoleSelection,
     handleButtonClick,
+    sumTotal,
+    setSumTotal,
+    totalValues,
+    altQuantidade,
   ]);
 
   // children são os elementos/o <App>

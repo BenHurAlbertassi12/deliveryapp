@@ -11,20 +11,11 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={ <Navigate to="/login" /> } />
-      <Route
-        path="/login"
-        element={ <Login /> }
-      />
-      <Route
-        path="/register"
-        element={ <Register /> }
-      />
-      <Route
-        path="/admin/manage"
-        element={ <AdminManagement /> }
-      />
+      <Route path="/login" element={ <Login /> } />
+      <Route path="/register" element={ <Register /> } />
+      <Route path="/admin/manage" element={ <AdminManagement /> } />
       <Route path="/customer/products" element={ <Products /> } />
-      <Route path="/customer/orders" element={ <Orders /> } />
+      <Route path="/customer/checkout" element={ <Orders /> } />
     </Routes>
   );
 }
