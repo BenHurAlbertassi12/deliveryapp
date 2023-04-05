@@ -4,6 +4,7 @@ import AppContext from '../../context/Context';
 export default function RegisterInputName() {
   const { fullname, setFullnameText, handleInput } = useContext(AppContext);
   // Usar este ^ modelo para todos os inputs porque assim usa uma mesma função handleInput (no Provider)
+
   return (
     <label htmlFor="input-text">
       Nome

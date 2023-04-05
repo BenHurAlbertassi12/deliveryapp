@@ -18,25 +18,29 @@ const loginSchemas = Joi.object({
 // Função para validar o login:
 const verifyUser = async (email, password) => {
     const validate = loginSchemas.validate({ email, password });
+
     if (validate.error) {
         return validate;
     }
+
     const mashPass = md5(password);
     const user = await User.findOne(
         { attributes: { exclude: ['password'] },
         where: { email, password: mashPass } },
-);
-if (!user) {
-    return null;
-}
+    );
+    
+    if (!user) {
+        return null;
+    }
 
-const token = createToken(user.dataValues);
+    const token = createToken(user.dataValues);
     return { ...user.dataValues, token };
 };
 
 // Função para criação de usuario:
-const newUser = async (user, email, password) => {
-    const validate = newUserSchemas.validate({ name: user, email, password });
+const newUser = async (name, email, password, role) => {
+    const validate = newUserSchemas.validate({ name, email, password });
+
     if (validate.error) {
         return validate;
     }
@@ -44,12 +48,13 @@ const newUser = async (user, email, password) => {
     if (findUser) {
         return null;
     }
+
     const mashPass = md5(password);
-    const data = await User.create({ name: user, email, password: mashPass, role: 'customer' });
+    const data = await User.create({ name, email, password: mashPass, role });
     const { password: _, ...dataValues } = data.dataValues;
-    // return { ...dataValues };
     const token = createToken(dataValues);
-    return { ...dataValues, token };
+
+    return { ...dataValues, token }; 
 };
 
 module.exports = {

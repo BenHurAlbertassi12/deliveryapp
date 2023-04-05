@@ -1,24 +1,26 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import AppContext from '../../context/Context';
-
 import useLocalStorage from '../../Utils/useLocalStorage';
 
 export default function LoginButton() {
+  const { getAPI, email, password, setMessageHidden, resetForm } = useContext(AppContext);
   const navigate = useNavigate();
   const setUserStorage = useLocalStorage('user')[1];
-
-  const { getAPI, email, password, setMessageHidden } = useContext(AppContext);
 
   const emailValid = /\S+@\S+\.\S+/.test(email);
   const minNumber = 6;
 
-  const handleLoginSubmit = async () => {
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+    resetForm();
+
+    const payload = {
+      email,
+      password,
+    };
+
     try {
-      const payload = {
-        email,
-        password,
-      };
       const response = await getAPI('post', 'login', payload);
       setUserStorage(response.data);
       if (response.data.role === 'customer') {

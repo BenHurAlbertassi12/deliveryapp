@@ -23,6 +23,7 @@ function Provider({ children }) {
     setEmailText('');
     setPasswordText('');
     setRoleSelection('seller');
+    setMessageHidden(true);
   };
 
   // Requisitos product
@@ -115,11 +116,11 @@ function Provider({ children }) {
     fullname,
     setFullnameText,
     hideErrorMessage,
+    getAPI,
     roleSelected,
     setRoleSelection,
     resetForm,
     handleButtonClick,
-    getAPI,
     sumTotal,
     setSumTotal,
     altQuantidade,

@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
+import { useLocation } from 'react-router';
 import RegisterInputName from '../components/adminManagePage/RegisterInputName';
 import RegisterRoleSelection from '../components/adminManagePage/RegisterRoleSelection';
 import EmailInput from '../components/EmailInput';
 import PasswordInput from '../components/PasswordInput';
 import RegisterButton from '../components/adminManagePage/RegisterButton';
 import AppContext from '../context/Context';
-
-const n6 = 4;
-const n12 = 12;
+import ErrorMessage from '../components/loginPage/ErrorMessage';
+import APIFetch from '../Utils/API';
+import useLocalStorage from '../Utils/useLocalStorage';
 
 // Req36
 export default function AdminManagement() {
@@ -16,25 +17,39 @@ export default function AdminManagement() {
     fullname,
     email,
     password,
-
+    roleSelected,
+    setMessageHidden,
     resetForm,
   } = useContext(AppContext);
-  const emailValid = /\S+@\S+\.\S+/.test(email);
+  const { pathname } = useLocation();
 
+  const userInfo = {
+    name: fullname,
+    email,
+    password,
+    role: roleSelected,
+  };
+
+  const adminToken = useLocalStorage('user')[0].token;
+  const header = { headers: { authorization: adminToken } };
+
+  // Req 38 e 39
   const handleSubmit = async (event) => {
     event.preventDefault();
     resetForm();
 
-    // Verifica se os dados do formulário são válidos
-    if (
-      fullname.length < n12
-        || emailValid
-        || password.length < n6
-    ) {
+    try {
+      const response = await
+      APIFetch('post', pathname.substring(1), userInfo, header);
+      // substring: https://tecadmin.net/remove-first-character-from-string-in-javascript/#:~:text=in%20a%20string.-,To%20remove%20the%20first%20character%20from%20a%20string%20using%20the,it%20with%20an%20empty%20string.&text=2-,let%20str%20%3D%20%22Hello%20World!%22%3B,%3B%20%2F%2F%20%22ello%20World!%22;
+
+      setMessageHidden(true); // Esconde
       resetForm();
+      return response.data.token;
+    } catch (err) {
+      setMessageHidden(false); // Aparece
     }
   };
-
   return (
     <div id="admin-management-register-container">
       <h4>Cadastrar novo usuário</h4>
@@ -46,6 +61,7 @@ export default function AdminManagement() {
         <PasswordInput />
         <RegisterRoleSelection />
         <RegisterButton />
+        <ErrorMessage />
       </form>
     </div>
   );

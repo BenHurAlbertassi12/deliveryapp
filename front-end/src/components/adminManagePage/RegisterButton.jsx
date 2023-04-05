@@ -2,7 +2,11 @@ import React, { useContext } from 'react';
 import AppContext from '../../context/Context';
 
 export default function RegisterButton() {
-  const { fullname, email, password } = useContext(AppContext);
+  const {
+    fullname,
+    email,
+    password,
+  } = useContext(AppContext);
 
   // Req 37
   const emailValid = /\S+@\S+\.\S+/.test(email);

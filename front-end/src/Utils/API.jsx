@@ -1,27 +1,11 @@
 import axios from 'axios';
 
-// export const fetchPost = async (endpoint, payload) => {
-//   const data = await axios.post(`http://localhost:3001/${endpoint}`, payload);
-//   console.log(`http://localhost:3001/${endpoint}`);
-//   return data;
-// };
-
-// export const fetchGet = async (endpoint) => {
-//   const data = await axios.get(`localhost:3001/${endpoint}`);
-//   return data;
-// };
-
-// export const fetchPut = async (endpoint, payload) => {
-//   const data = await axios.put(`localhost:3001/${endpoint}`, payload);
-//   return data;
-// };
-
-const APIFetch = async (method, endpoint, payload) => {
+const APIFetch = async (method, endpoint, payload, headers = '') => {
   const path = `http://localhost:3001/${endpoint}`;
   switch (method) {
   case 'post':
   {
-    const data = await axios.post(path, payload);
+    const data = await axios.post(path, payload, headers);
     return data;
   }
   case 'put':

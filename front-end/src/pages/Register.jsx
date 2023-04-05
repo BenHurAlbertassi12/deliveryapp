@@ -2,7 +2,6 @@ import React, { useState, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
-
 import useLocalStorage from '../Utils/useLocalStorage';
 
 const n4 = 4;
@@ -22,23 +21,6 @@ function Register() {
     && email.includes('@')
     && email.includes('.')
     && password.length > n4;
-
-  const handleRegister = useCallback(
-    async (name, mail, pass) => {
-      try {
-        const response = await APIFetch('post', 'register', {
-          name,
-          email: mail,
-          password: pass,
-        });
-        setUserStorage(response.data);
-      } catch (err) {
-        setMessageHidden(false);
-        throw new Error();
-      }
-    },
-    [setMessageHidden, setUserStorage],
-  );
 
   const resetForm = () => {
     setName('');
@@ -61,6 +43,24 @@ function Register() {
     setPassword(event.target.value);
     setFormValid(isFormValid());
   };
+
+  const handleRegister = useCallback(
+    async (username, mail, pass) => {
+      try {
+        const response = await APIFetch('post', 'register', {
+          name: username,
+          email: mail,
+          password: pass,
+          role: 'customer',
+        });
+        setUserStorage(response.data);
+      } catch (err) {
+        setMessageHidden(false);
+        throw new Error();
+      }
+    },
+    [setMessageHidden, setUserStorage],
+  );
 
   const handleSubmit = async (event) => {
     event.preventDefault();
