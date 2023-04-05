@@ -9,7 +9,7 @@ export default function PasswordInput() {
   // Usar este ^ modelo para todos os inputs porque assim usa uma mesma função handleInput (no Provider)
   return (
     <label
-      htmlFor="input-email"
+      htmlFor="input-password"
     >
       Password
       <input

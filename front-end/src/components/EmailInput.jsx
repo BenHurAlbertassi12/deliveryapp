@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import AppContext from '../context/Context';
 // Req 2 e 36
 export default function EmailInput() {
-  const { email, addEmail } = useContext(AppContext);
+  const { email, setEmailText, handleInput } = useContext(AppContext);
   const { pathname } = useLocation();
 
   // Usar este ^ modelo para todos os inputs porque assim usa uma mesma função handleInput (no Provider)
@@ -19,7 +19,7 @@ export default function EmailInput() {
         id="input-email"
         placeholder="seu-email@superb.com"
         value={ email }
-        onChange={ addEmail }
+        onChange={ (newText) => handleInput(newText, setEmailText) }
       />
     </label>
   );

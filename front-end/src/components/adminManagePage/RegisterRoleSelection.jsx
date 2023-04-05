@@ -4,8 +4,8 @@ import AppContext from '../../context/Context';
 export default function RegisterRoleSelection() {
   const { roleSelected, setRoleSelection } = useContext(AppContext);
 
-  function change(event) {
-    setRoleSelection({ value: event.target.value });
+  function selectHandle({ target: value }) {
+    setRoleSelection(value);
   }
 
   return (
@@ -14,11 +14,11 @@ export default function RegisterRoleSelection() {
       <select
         data-testid="admin_manage__select-role"
         id="role-selector"
-        onChange={ change }
+        onChange={ (event) => selectHandle(event) }
         value={ roleSelected }
       >
-        <option value="valor1">Valor1</option>
-        <option value="valor2">Valor2</option>
+        <option value="seller">Seller</option>
+        <option value="customer">Cliente</option>
       </select>
     </label>
   );

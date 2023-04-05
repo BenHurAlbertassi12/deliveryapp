@@ -1,6 +1,7 @@
 import {
   useState,
   useMemo,
+  useCallback,
 } from 'react';
 
 import PropTypes from 'prop-types';
@@ -8,11 +9,19 @@ import AppContext from './Context';
 import APIFetch from '../Utils/API';
 
 function Provider({ children }) {
-  const [email, setEmailText] = useState('');
-  const [password, setPasswordText] = useState('');
-  const [fullname, setFullnameText] = useState('');
+  const [email, setEmailText] = useState(''); // R2, 36 e 37
+  const [password, setPasswordText] = useState(''); // R2, 36 e 37
+  const [fullname, setFullnameText] = useState(''); // R36 e 37
   const [isButtonDisabled, setButtonDisabled] = useState(true);
   const [isMessageHidden, setMessageHidden] = useState(true);
+  const [roleSelected, setRoleSelection] = useState('seller'); // R36 e 37
+
+  const resetForm = () => {
+    setFullnameText('');
+    setEmailText('');
+    setPasswordText('');
+    setRoleSelection('seller');
+  };
 
   // Requisitos product
   const [cart, setCart] = useState([]);
@@ -61,14 +70,15 @@ function Provider({ children }) {
   };
 
   const handleInput = ({ target: { value } }, func) => {
-    func(value); // Pode utilizar em qualquer input, ao usar o setNOMEINPUT vai saber o que fazer com o useState
+    func(value); // R2, 36 e 37
   };
 
-  const handleButtonClick = (event) => {
-    event.preventDefault();
-  };
+  const handleButtonClick = useCallback((event) => {
+    event.preventDefault(); // R2, 36
+    resetForm();
+  }, []);
 
-  const hideErrorMessage = async () => {
+  const hideErrorMessage = async () => { // R2
     const response = await fetch('/login');
     const notFoundHttpStatus = 404;
 
@@ -83,7 +93,6 @@ function Provider({ children }) {
     setEmailText,
     addEmail,
     handleInput,
-    handleButtonClick,
     isButtonDisabled,
     setButtonDisabled,
     password,
@@ -94,6 +103,10 @@ function Provider({ children }) {
     fullname,
     setFullnameText,
     hideErrorMessage,
+    roleSelected,
+    setRoleSelection,
+    resetForm,
+    handleButtonClick,
     getAPI,
   }), [
     order,
@@ -106,7 +119,10 @@ function Provider({ children }) {
     setPasswordText,
     fullname,
     isMessageHidden,
-    getAPI]);
+    roleSelected,
+    setRoleSelection,
+    handleButtonClick,
+  ]);
 
   // children são os elementos/o <App>
   return (
