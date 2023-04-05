@@ -13,30 +13,32 @@ function OrderCard({ order }) {
   };
 
   return (
-    <button
-      data-testid={ `${user.role}_orders__element-order-id-${id}` }
-      type="button"
-      onClick={ (event) => handleButton(event) }
-    >
-      <div>
-        <p>Pedido</p>
-        <p>{id}</p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-delivery-status-${id}` }>
-        <p>{status}</p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-order-date-${id}` }>
-        <p>{new Date(saleDate).toLocaleDateString('en-GB')}</p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-card-price-${id}` }>
-        <p>{totalPrice.replace('.', ',')}</p>
-      </div>
-      {deliveryAddress && (
-        <div data-testid={ `seller_orders__element-card-address-${id}` }>
-          <p>{deliveryAddress}</p>
+    <section>
+      <button
+        data-testid={ `${user.role}_orders__element-order-id-${id}` }
+        type="button"
+        onClick={ (event) => handleButton(event) }
+      >
+        <div>
+          <p>Pedido</p>
+          <p>{id}</p>
         </div>
-      )}
-    </button>
+        <div data-testid={ `${user.role}_orders__element-delivery-status-${id}` }>
+          <p>{status}</p>
+        </div>
+        <div data-testid={ `${user.role}_orders__element-order-date-${id}` }>
+          <p>{new Date(saleDate).toLocaleDateString('en-GB')}</p>
+        </div>
+        <div data-testid={ `${user.role}_orders__element-card-price-${id}` }>
+          <p>{totalPrice.replace('.', ',')}</p>
+        </div>
+        {deliveryAddress && (
+          <div data-testid={ `seller_orders__element-card-address-${id}` }>
+            <p>{deliveryAddress}</p>
+          </div>
+        )}
+      </button>
+    </section>
   );
 }
 

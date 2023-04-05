@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import context from '../../context/Context';
 import useLocalStorage from '../../Utils/useLocalStorage';
+import Entrega from './CheckoutEntrega';
 
 function OrderTable({ page }) {
   const { cart, totalValues, altQuantidade, order } = useContext(context);
@@ -32,6 +33,7 @@ function OrderTable({ page }) {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
+            <th>Remover Item</th>
             {page === 'checkout' && <th>Remover Item</th>}
           </tr>
         </thead>
@@ -116,6 +118,7 @@ function OrderTable({ page }) {
           </p>
         )}
       </div>
+      <Entrega />
     </div>
   );
 }

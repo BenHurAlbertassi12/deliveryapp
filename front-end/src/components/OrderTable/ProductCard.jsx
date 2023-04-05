@@ -8,7 +8,7 @@ function ProductCard({ product }) {
   const { altQuantidade } = useContext(AppContext);
 
   useEffect(() => {
-    altQuantidade({ id, quantity, price });
+    altQuantidade({ ...product, quantity });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
   /*
