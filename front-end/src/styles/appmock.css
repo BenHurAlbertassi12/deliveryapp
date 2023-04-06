@@ -1,0 +1,255 @@
+.telehone {
+  align-content: center;
+  align-items: left;
+  background-image: url('https://i.pinimg.com/originals/d5/be/dc/d5bedc8fbc402c009bf01985a35c0643.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: flex;
+  flex-direction: row;
+  height: 640px;
+  justify-content: center;
+  top: 5px;
+  width: 100%;
+}
+
+main {
+  align-content: center;
+  align-items: center;
+  border-radius: 0 0 30px 30px;
+  display: flex;
+  flex-direction: column;
+  height: 525px;
+  justify-content: center;
+  margin-left: 2px;
+  margin-top: 75px;
+  width: 268px;
+}
+
+.login {
+  background-color: #ffa915;
+  color: white;
+}
+
+.login h1 {
+  align-content: center;
+  align-items: center;
+  color: #0e0e0e;
+  display: flex;
+  flex-wrap: nowrap;
+  font-family: Work Sans , sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  justify-content: flex-start;
+  margin-left: 50px;
+  margin-top: 50px;
+  width: 100%;
+}
+
+form {
+  align-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 25px 25px 30px 30px;
+  border-top: 1px solid #ed9d12;
+  color: black;
+  display: flex;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.05));
+  flex-direction: column;
+  height: 380px;
+  justify-content: center;
+  margin-top: 7px;
+  padding: 6px;
+  width: 95%;
+}
+
+input {
+  background: rgb(242, 242, 242);
+  border: solid 1.5px rgb(232, 227, 219);
+  border-radius: 5px;
+  color: rgb(18, 18, 27);
+  font-family: Mulish , sans-serif;
+  font-size: 0.9rem;
+  margin: 5px;
+  padding: 1rem;
+  transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 80%;
+}
+
+input:focus, input:valid {
+  color: #12121b;
+  outline: none;
+}
+
+input::placeholder {
+  color: #c3c2c1;
+}
+
+/* input:focus ~ label,
+input:valid ~ label {
+  transform: translateY(-50%) scale(0.8);
+  background-color: #212121;
+  padding: 0 0.2em;
+  color: #2196f3;
+} */
+
+label {
+  font-family: Montserrat , sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+  text-transform: uppercase;
+}
+
+.margintop {
+  margin-top: -30px;
+}
+
+.button {
+  align-content: center;
+  align-items: center;
+  background-color: #181823;
+  border: 1px solid #12121b;
+  border-radius: 5px;
+  color: #e8e3db;
+  display: flex;
+  font-family: Darker Grotesque , sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 15px 5px 5px;
+  outline: none;
+  padding: 0.8rem;
+  width: 95%;
+}
+
+button {
+  outline: none;
+}
+
+.button-register {
+  align-content: center;
+  align-items: center;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: #12121b;
+  display: flex;
+  font-family: Darker Grotesque , sans-serif;
+  font-size: 1rem;
+  justify-content: center;
+  margin: 15px 5px 5px;
+  padding: 0.8rem;
+  width: 95%;
+}
+
+.formRegister {
+  padding-bottom: 25px;
+  padding-top: 20px;
+}
+
+.buttonregistertwo {
+  margin-top: 10px;
+}
+
+.boxregister {
+  margin-left: 0;
+  margin-top: -20px;
+}
+
+@media screen and ( max-width : 780px ) {
+
+  .telehone {
+    background-image: none;
+  }
+
+  .login h1 {
+    font-size: 55px;
+    margin-top: 95px;
+  }
+
+  main {
+    border-radius: 0;
+    height: 890px;
+    margin-top: 0;
+    overflow-x: hidden;
+    width: 414px;
+  }
+
+  form {
+    border-radius: 35px 35px 0 0;
+    height: 606px;
+    margin-top: 38px;
+    padding: 6px;
+    width: 400px;
+  }
+
+  input {
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    margin-left: 15px;
+    width: 85%;
+  }
+
+  label {
+    font-size: 1.1rem;
+  }
+
+  .button, .button-register {
+    font-size: 1.5rem;
+    margin-left: 35px;
+    width: 80%;
+  }
+}
+
+@media screen and ( max-width : 412px ) {
+
+  main {
+    height: 846px;
+  }
+
+  form {
+    border-radius: 35px 35px 0 0;
+    height: 750px;
+    margin-top: 0;
+    padding: 6px;
+  }
+}
+
+@media screen and ( max-width : 375px ) {
+
+  main {
+    height: 667px;
+    margin-top: 0;
+    width: 365px;
+  }
+
+  .login h1 {
+    font-size: 45px;
+    margin-top: 35px;
+  }
+
+  form {
+    border-radius: 35px 35px 0 0;
+    height: 526px;
+    margin-top: 0;
+    padding: 6px;
+    width: 355px;
+  }
+}
+
+@media screen and ( max-width : 360px ) {
+
+  main {
+    height: 740px;
+  }
+
+  form {
+    border-radius: 35px 35px 0 0;
+    height: 650px;
+    margin-top: 0;
+    padding: 6px;
+    width: 355px;
+  }
+}

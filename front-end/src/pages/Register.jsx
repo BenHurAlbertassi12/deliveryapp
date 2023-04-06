@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-depth */
 import React, { useState, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import AppContext from '../context/Context';
@@ -85,53 +86,58 @@ function Register() {
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <label htmlFor="common_register__input-name">
-        Nome
-        <input
-          type="text"
-          data-testid="common_register__input-name"
-          value={ user }
-          onChange={ addName }
-        />
-      </label>
+    <main className="login">
+      <h1> Register</h1>
+      <form onSubmit={ handleSubmit } className="formRegister">
+        <section className="boxregister">
+          <label htmlFor="common_register__input-name">
+            Nome
+            <input
+              type="text"
+              data-testid="common_register__input-name"
+              value={ user }
+              onChange={ addName }
+            />
+          </label>
 
-      <label htmlFor="common_register__input-email">
-        Email
-        <input
-          type="email"
-          data-testid="common_register__input-email"
-          value={ email }
-          onChange={ addEmail }
-        />
-      </label>
+          <label htmlFor="common_register__input-email">
+            Email
+            <input
+              type="email"
+              data-testid="common_register__input-email"
+              value={ email }
+              onChange={ addEmail }
+            />
+          </label>
 
-      <label htmlFor="common_register__input-password">
-        Senha:
-        <input
-          type="password"
-          data-testid="common_register__input-password"
-          value={ password }
-          onChange={ addPassword }
-        />
-      </label>
+          <label htmlFor="common_register__input-password">
+            Senha:
+            <input
+              type="password"
+              data-testid="common_register__input-password"
+              value={ password }
+              onChange={ addPassword }
+            />
+          </label>
+        </section>
+        <button
+          type="submit"
+          data-testid="common_register__button-register"
+          disabled={ !formValid }
+          onClick={ handleSubmit }
+          className="button buttonregistertwo"
+        >
+          Cadastrar
+        </button>
 
-      <button
-        type="submit"
-        data-testid="common_register__button-register"
-        disabled={ !formValid }
-        onClick={ handleSubmit }
-      >
-        Cadastrar
-      </button>
-
-      <div
-        data-testid="common_register__element-invalid_register"
-        style={ { display: !isMessageHidden ? 'block' : 'none' } }
-      >
-        {error}
-      </div>
-    </form>
+        <div
+          data-testid="common_register__element-invalid_register"
+          style={ { display: !isMessageHidden ? 'block' : 'none' } }
+        >
+          {error}
+        </div>
+      </form>
+    </main>
   );
 }
 

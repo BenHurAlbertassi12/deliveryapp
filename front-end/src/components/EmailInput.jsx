@@ -10,6 +10,7 @@ export default function EmailInput() {
   return (
     <label
       htmlFor="input-email"
+      className="input-label"
     >
       Email
       <input

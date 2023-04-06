@@ -5,6 +5,7 @@ import LoginButton from '../components/loginPage/LoginButton';
 import RegisterButton from '../components/loginPage/RegisterButton';
 import PasswordInput from '../components/PasswordInput';
 import AppContext from '../context/Context';
+import '../styles/appmock.css';
 
 // Req2
 export default function Login() {
@@ -12,18 +13,21 @@ export default function Login() {
   const { handleButtonClick } = useContext(AppContext);
 
   return (
-    <div id="login-container">
+    <main className="login">
+      <h1> Sign in</h1>
+      <p />
       <form
         onSubmit={ handleButtonClick }
       >
-        <h4>Oi do Login</h4>
-        <EmailInput />
-        <PasswordInput />
-        <LoginButton />
-        <RegisterButton />
-        <ErrorMessage />
+        <div className="margintop">
+          <EmailInput />
+          <PasswordInput />
+          <LoginButton />
+          <RegisterButton />
+          <ErrorMessage />
+        </div>
       </form>
-    </div>
+    </main>
   );
 }
 

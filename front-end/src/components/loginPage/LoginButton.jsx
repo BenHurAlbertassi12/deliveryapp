@@ -42,6 +42,7 @@ export default function LoginButton() {
       id="button-login"
       disabled={ !(password.length >= minNumber && emailValid) }
       onClick={ handleLoginSubmit }
+      className="button"
     >
       Login
     </button>
