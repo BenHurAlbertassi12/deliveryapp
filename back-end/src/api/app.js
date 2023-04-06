@@ -4,6 +4,8 @@ const loginRoute = require('./Routes/LoginRoute');
 const registerRoute = require('./Routes/RegisterRoute');
 const adminManageRoute = require('./Routes/AdminManageRoute');
 const ProductRoutes = require('./Routes/ProductRoutes');
+const SalesRoutes = require('./Routes/SalesRoutes');
+const SalesProductsRoutes = require('./Routes/SalesProductsRoutes');
 
 // fonte: https://stackoverflow.com/questions/43871637/no-access-control-allow-origin-header-is-present-on-the-requested-resource-whe
 const corsOptions = {
@@ -20,6 +22,8 @@ app.use(loginRoute);
 app.use(registerRoute);
 app.use(adminManageRoute);
 app.use(ProductRoutes);
+app.use(SalesRoutes);
+app.use(SalesProductsRoutes);
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 

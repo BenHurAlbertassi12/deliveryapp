@@ -1,4 +1,4 @@
-const { verifyUser } = require('../Services/UserServices');
+const { verifyUser } = require('../Services/UserService');
 
 const login = async (req, res) => {
     const { email, password } = req.body;
