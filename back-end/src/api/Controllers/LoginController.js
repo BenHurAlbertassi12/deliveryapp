@@ -1,4 +1,4 @@
-const { verifyUser } = require('../Services/UserService');
+const { verifyUser, getSellers } = require('../Services/UserService');
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -12,6 +12,12 @@ const login = async (req, res) => {
     return res.status(200).json(data);
 };  
 
+const getSellersController = async (_req, res) => {
+    const users = await getSellers();
+    return res.status(200).json(users);
+};
+
 module.exports = {
     login,
+    getSellersController,
 };

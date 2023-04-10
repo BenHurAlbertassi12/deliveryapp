@@ -1,13 +1,7 @@
-import {
-  useState,
-  useMemo,
-  useCallback,
-  useEffect,
-} from 'react';
-
 import PropTypes from 'prop-types';
-import AppContext from './Context';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import APIFetch from '../Utils/API';
+import AppContext from './Context';
 
 function Provider({ children }) {
   const [email, setEmailText] = useState(''); // R2, 36 e 37
@@ -33,9 +27,13 @@ function Provider({ children }) {
   const altQuantidade = useCallback((altProd) => {
     const getId = cart.some(({ id }) => altProd.id === id);
     if (!getId && altProd.counter > 0) return setCart([...cart, altProd]);
-    const additionProduct = cart.filter(({ id }) => id !== altProd.id);
+    const additionProduct = cart // Adicionei o quantity, porque do nada aparecia uma stella artois com quantidade 0 kk
+      .filter(({ id, quantity }) => id !== altProd.id && quantity > 0);
     if (altProd.counter === 0) return setCart([...additionProduct]);
-    return setCart([...additionProduct, altProd]);
+    if (altProd.quantity > 0) { // Testa se a quantidade nao é zero, caso for remove
+      return setCart([...additionProduct, altProd]);
+    }
+    return setCart([...additionProduct]);
     // const updatedCart = altProd.quantity === 0
     //   ? cart.filter((filterProd) => filterProd.id !== altProd.id)
     //   : cart.map((prod) => {
@@ -53,9 +51,12 @@ function Provider({ children }) {
       const value = cur.quantity * price;
       return acc + value;
     }, 0);
-    console.log('total', totalValue);
     return totalValue.toFixed(2);
   }, [cart]);
+
+  // Adicionei para puxar o cart e a order em outros componentes
+  const getCart = useCallback(() => cart, [cart]);
+  const getOrder = useCallback(() => order, [order]);
 
   useEffect(() => {
     setSumTotal(totalValues());
@@ -124,6 +125,8 @@ function Provider({ children }) {
     sumTotal,
     setSumTotal,
     altQuantidade,
+    getCart,
+    getOrder,
   }), [
     order,
     email,
@@ -141,6 +144,8 @@ function Provider({ children }) {
     setSumTotal,
     totalValues,
     altQuantidade,
+    getCart,
+    getOrder,
   ]);
 
   // children são os elementos/o <App>

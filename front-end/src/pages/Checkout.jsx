@@ -1,15 +1,14 @@
-import React,
-{
+import React, {
   useContext,
   useEffect,
   useState,
 } from 'react';
 import { useNavigate } from 'react-router';
 import Navbar from '../components/Navbar';
+import OrderTable from '../components/OrderTable/CheckoutTable';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
 import useLocalStorage from '../Utils/useLocalStorage';
-import OrderTable from '../components/OrderTable/CheckoutTable';
 
 export default function Checkout() {
   const { cart, totalValues } = useContext(AppContext);
@@ -17,7 +16,7 @@ export default function Checkout() {
   // Vinicuis alterar a vontade
   const user = useLocalStorage('user')[0];
   const { email: userEmail } = user;
-  console.log(user);
+  // console.log(user);
 
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryNumber, setDeliveryNumber] = useState('');
@@ -27,14 +26,18 @@ export default function Checkout() {
   const navigate = useNavigate();
 
   const fetchVendedor = async () => {
-    const { data } = await APIFetch('get', 'seller');
-    setVendedorId(data[0].id);
-    return setVendedor(data);
+    try {
+      const { data } = await APIFetch('get', 'seller');
+      setVendedorId(data[0].id);
+      return setVendedor(data);
+    } catch (err) {
+      console.log('error', err);
+    }
   };
 
   useEffect(() => {
     fetchVendedor();
-  }, []);
+  }, [setVendedorId, cart]);
 
   const handleSubmitButton = async (event) => {
     event.preventDefault();
@@ -42,7 +45,7 @@ export default function Checkout() {
     const totalPrice = totalValues();
 
     try {
-      const { data } = await APIFetch('post', 'seller', {
+      const { data } = await APIFetch('post', 'sale', {
         cart,
         totalPrice,
         vendedorId,
@@ -50,7 +53,7 @@ export default function Checkout() {
         deliveryNumber,
         userEmail,
       });
-      return navigate(`/customer/orders/${data.saleId}`);
+      navigate(`/customer/orders/${data.saleId}`);
     } catch (error) {
       console.log(error);
     }
@@ -59,10 +62,9 @@ export default function Checkout() {
   return (
     <div>
       <Navbar />
-
       <div>
-        <OrderTable />
-        <h1> Finalizar pedido</h1>
+        <OrderTable page="checkout" />
+        {/* <h1> Finalizar pedido</h1> */}
       </div>
       <div>
         <h1> Detalhes e endereço para entrega</h1>

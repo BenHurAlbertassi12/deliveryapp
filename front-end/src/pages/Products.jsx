@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AppContext from '../context/Context';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/OrderTable/ProductCard';
+import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
+import useLocalStorage from '../Utils/useLocalStorage';
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const { sumTotal } = useContext(AppContext);
+  const { sumTotal, getCart } = useContext(AppContext);
   const navigate = useNavigate();
   const [disable, setDisabled] = useState(true);
+  const setCartStorage = useLocalStorage('cart')[1];
 
   const allowCartButton = () => {
     if (sumTotal > 0) return setDisabled(false);
@@ -27,7 +29,6 @@ function Products() {
         const productDB = await APIFetch('get', 'products', '');
         setProducts(productDB.data);
       } catch (error) {
-        console.log(error);
         localStorage.clear();
         navigate('/login');
       }
@@ -36,18 +37,28 @@ function Products() {
     fetchProducts();
   }, [navigate]);
 
+  function handleCartBtn() {
+    const cartProducts = getCart();
+    setCartStorage(cartProducts);
+    navigate('/customer/checkout');
+  }
+
   return (
     <div>
       <Navbar />
       <div>
         {products.map((product) => (
-          <ProductCard product={ product } key={ product.id } />
+          <ProductCard
+            product={ product }
+            dataSize={ products.length } // Adicionado para criação de um array na ProductCard
+            key={ product.id }
+          />
         ))}
       </div>
       <button
         data-testid="customer_products__button-cart"
         type="button"
-        onClick={ () => navigate('/customer/checkout') }
+        onClick={ () => handleCartBtn() }
         disabled={ disable }
       >
         Ver carrinho: R$

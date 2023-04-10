@@ -57,7 +57,15 @@ const newUser = async (name, email, password, role) => {
     return { ...dataValues, token }; 
 };
 
+// Adicionei para puxar os usuarios
+const getSellers = async () => {
+    const users = await User.findAll();
+    const sellers = users.filter((user) => user.role === 'seller');
+    return sellers;
+};
+
 module.exports = {
     verifyUser,
     newUser,
+    getSellers,
 };

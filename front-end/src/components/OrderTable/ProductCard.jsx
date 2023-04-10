@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../context/Context';
 
 function ProductCard({ product }) {
@@ -10,7 +10,7 @@ function ProductCard({ product }) {
   useEffect(() => {
     altQuantidade({ ...product, quantity });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [quantity]);
+  }, [product, quantity]);
   /*
 executa a função altQuantidade sempre que altQuantidade,
 product ou quantity mudarem. A função altQuantidade é executada com um objeto
@@ -47,8 +47,7 @@ para atualizar o carrinho de compras do requisito.
           <button
             type="button"
             id="decrease"
-            onClick={ (target) => {
-              console.log('oi eu sou o target', target);
+            onClick={ () => {
               if (quantity > 0) setQuantity(quantity - 1);
             } }
             data-testid={ `customer_products__button-card-rm-item-${id}` }
