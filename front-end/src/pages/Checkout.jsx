@@ -15,7 +15,7 @@ export default function Checkout() {
 
   // Vinicuis alterar a vontade
   const user = useLocalStorage('user')[0];
-  const { email: userEmail } = user;
+  const { id, token } = user;
   // console.log(user);
 
   const [deliveryAddress, setDeliveryAddress] = useState('');
@@ -43,17 +43,24 @@ export default function Checkout() {
     event.preventDefault();
 
     const totalPrice = totalValues();
+    const header = { headers: { authorization: token } };
 
     try {
-      const { data } = await APIFetch('post', 'sale', {
-        cart,
+      const carrinho = JSON.parse(localStorage.getItem('cart'));
+      const { data } = await APIFetch('post', 'customer/orders', {
         totalPrice,
-        vendedorId,
+        status: 'Pendente',
+        saleDate: new Date(),
+        sellerId: vendedorId,
         deliveryAddress,
         deliveryNumber,
-        userEmail,
+        userId: id,
+      }, header);
+      await APIFetch('post', 'checkout', {
+        id: data.id,
+        products: [...carrinho],
       });
-      navigate(`/customer/orders/${data.saleId}`);
+      navigate(`/customer/orders/${data.id}`);
     } catch (error) {
       console.log(error);
     }

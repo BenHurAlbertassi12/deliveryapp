@@ -17,7 +17,7 @@ function App() {
       <Route path="/admin/manage" element={ <AdminManagement /> } />
       <Route path="/customer/products" element={ <Products /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
-
+      <Route path="/customer/orders/:id" />
     </Routes>
   );
 }

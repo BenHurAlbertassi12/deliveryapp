@@ -3,6 +3,6 @@ const newSaleAndProducts = require('../Controllers/SaleProductsController');
 
 const SalesProductsRoutes = express.Router();
 
-SalesProductsRoutes.post('/teste', (req, res) => newSaleAndProducts(req, res));
+SalesProductsRoutes.post('/checkout', (req, res) => newSaleAndProducts(req, res));
 
 module.exports = SalesProductsRoutes;
