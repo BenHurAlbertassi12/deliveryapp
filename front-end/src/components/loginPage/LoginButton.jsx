@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import AppContext from '../../context/Context';
 import useLocalStorage from '../../Utils/useLocalStorage';
@@ -7,6 +7,9 @@ export default function LoginButton() {
   const { getAPI, email, password, setMessageHidden, resetForm } = useContext(AppContext);
   const navigate = useNavigate();
   const setUserStorage = useLocalStorage('user')[1];
+  // const setCartStorage = useLocalStorage('cart', {
+  //   products: [],
+  // });
 
   const emailValid = /\S+@\S+\.\S+/.test(email);
   const minNumber = 6;
@@ -34,6 +37,19 @@ export default function LoginButton() {
       throw new Error();
     }
   };
+
+  useEffect(() => {
+    const setLoginStorage = JSON.parse(localStorage.getItem('user')) || {};
+    if (setLoginStorage.role === 'customer') {
+      navigate('/customer/products');
+    }
+    if (setLoginStorage.role === 'seller') {
+      navigate('/seller/orders');
+    }
+    if (setLoginStorage.role === 'administrador') {
+      navigate('/admin/manage');
+    }
+  }, [navigate]);
 
   return (
     <button

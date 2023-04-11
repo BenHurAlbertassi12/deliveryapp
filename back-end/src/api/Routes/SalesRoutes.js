@@ -12,7 +12,7 @@ SalesRoutes.get('/customer/orders/:id', (req, res) => {
     getIdSale(req, res);
 });
 
-SalesRoutes.get('/customer/orders', (req, res) => {
+SalesRoutes.post('/user/orders', (req, res) => {
     getUserOrders(req, res);
 });
 
