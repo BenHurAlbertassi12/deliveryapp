@@ -1,16 +1,11 @@
 const express = require('express');
 const { 
     addSale,
-    getIdSale,
     getUserOrders,
     getSellerSales,
     updateOrder } = require('../Controllers/SalesController');
 
 const SalesRoutes = express.Router();
-
-SalesRoutes.get('/customer/orders/:id', (req, res) => {
-    getIdSale(req, res);
-});
 
 SalesRoutes.post('/user/orders', (req, res) => {
     getUserOrders(req, res);

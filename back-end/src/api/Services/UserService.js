@@ -57,6 +57,16 @@ const newUser = async (name, email, password, role) => {
     return { ...dataValues, token }; 
 };
 
+const findSeller = async (id) => {
+    const seller = await User.findByPk(id, {
+        attributes: ['name'],
+    });
+    if (!seller) {
+        return null;
+    }
+    return seller;
+};
+
 // Adicionei para puxar os usuarios
 const getSellers = async () => {
     const users = await User.findAll();
@@ -67,5 +77,6 @@ const getSellers = async () => {
 module.exports = {
     verifyUser,
     newUser,
+    findSeller,
     getSellers,
 };

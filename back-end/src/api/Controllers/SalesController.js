@@ -3,7 +3,7 @@ const {
     findIdSale,
     findUserOrdes,
     findSellerSales,
-    updateStatus, 
+    updateStatus,
 } = require('../Services/SalesService');
 
 const addSale = async (req, res) => {
@@ -14,7 +14,7 @@ const addSale = async (req, res) => {
     }
     return res.status(201).json(newSale);
 };
-const getIdSale = async (req, res) => {
+const getIdSale = async (req, res) => { // Usado nos reqs 25 e 30
     const { id } = req.params;
     const sale = await findIdSale(id);
     if (!sale) {

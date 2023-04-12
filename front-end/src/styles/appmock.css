@@ -26,6 +26,24 @@ main {
   width: 268px;
 }
 
+.maincard {
+  align-items: center;
+  background-color: white;
+  border-radius: 5px 5px 30px 30px;
+  display: grid;
+  height: 400px;
+  justify-items: start;
+  margin-left: 0;
+  margin-top: 13px;
+  overflow-y: scroll;
+  padding-top: 15px;
+  width: 265px;
+
+  /* justify-content: center;
+  grid-template-columns: 110px 110px;
+  grid-gap: 10px; */
+}
+
 .login {
   background-color: #ffa915;
   color: white;

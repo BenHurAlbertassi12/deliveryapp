@@ -11,6 +11,8 @@ function Provider({ children }) {
   const [isMessageHidden, setMessageHidden] = useState(true);
   const [roleSelected, setRoleSelection] = useState('seller'); // R36 e 37
   const [sumTotal, setSumTotal] = useState(0);
+  const [saleProducts, setSaleProducts] = useState();
+  const [listProduct, setlistProduct] = useState([]);
 
   const resetForm = () => {
     setFullnameText('');
@@ -127,6 +129,10 @@ function Provider({ children }) {
     altQuantidade,
     getCart,
     getOrder,
+    saleProducts,
+    setSaleProducts,
+    listProduct,
+    setlistProduct,
   }), [
     order,
     email,
@@ -146,6 +152,10 @@ function Provider({ children }) {
     altQuantidade,
     getCart,
     getOrder,
+    saleProducts,
+    setSaleProducts,
+    listProduct,
+    setlistProduct,
   ]);
 
   // children são os elementos/o <App>

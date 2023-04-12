@@ -1,4 +1,4 @@
-const { Sales } = require('../../database/models/index');
+const { Sales, User, Products } = require('../../database/models/index');
 
 const addNewSale = async (sale) => {
     const newSale = await Sales.create({ ...sale });
@@ -31,13 +31,17 @@ const findUserOrdes = async (id) => {
 };
 
 const findIdSale = async (id) => {
-    const data = await Sales.findByPK(id);
-    if (!data) {
-        return null;
-    }
-    return data;
+    const data = await Sales.findByPk(id, {
+        include: [
+                { model: User, as: 'seller', attributes: ['name'] },
+                { model: Products, as: 'products' },
+                ] });
+        if (!data) {
+            return null;
+        }
+        return data;
 };
-
+    
 const updateStatus = async (id, status) => {
     const data = await Sales.update({ status }, { where: { id } });
     if (!data) {

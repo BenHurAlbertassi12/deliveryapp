@@ -1,37 +1,58 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
-import context from '../../context/Context';
+// import { useLocation } from 'react-router';
 import useLocalStorage from '../../Utils/useLocalStorage';
+import AppContext from '../../context/Context';
 
-function OrderTable({ page }) {
-  const { getCart, getOrder, totalValues, altQuantidade } = useContext(context);
-  const [user] = useLocalStorage('user');
+function OrderTable({ page, saleProducts }) {
+  const {
+    getCart,
+    getOrder,
+    totalValues,
+    altQuantidade,
+    listProduct,
+    setlistProduct,
+  } = useContext(AppContext);
+  const user = useLocalStorage('user')[0];
   const { role: userType } = user;
-  const [listProduct, setlistProduct] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPriceState, setTotalPrice] = useState('');
   const setCartStorage = useLocalStorage('cart')[1];
 
   useEffect(() => {
-    const cart = getCart();
-    // const order = getOrder();
-    setTotalPrice(totalValues());
-    setlistProduct(cart);
-    setCartStorage(listProduct);
-  }, [getCart, getOrder, totalValues, page, listProduct, setCartStorage]);
+    if (Object.keys(saleProducts).length !== 0) { // Req 25 e 30
+      const { products, totalPrice } = saleProducts;
+      setlistProduct(products);
+      setTotalPrice(totalPrice);
+    }
 
-  // useEffect(() => {
-  //   setlistProduct(page === 'checkout' ? cart : order);
-  //   console.log(listProduct);
-  // }, [cart, order, page]);
+    if (Object.keys(saleProducts).length === 0) {
+      const cart = getCart();
+      setTotalPrice(totalValues());
+      setlistProduct(cart);
+      setCartStorage(listProduct);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(saleProducts).length === 0) {
+      const cart = getCart();
+      // const order = getOrder();
+      setTotalPrice(totalValues().toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      }).toString().replace('.', ','));
+      setlistProduct(cart);
+      setCartStorage(listProduct);
+    }
+  }, [getCart, getOrder, totalValues, page, listProduct, setCartStorage]);
 
   const removeIndex = (product) => {
     altQuantidade({ ...product, quantity: 0 });
   };
 
-  if (!listProduct || listProduct.length > 0) {
+  if (listProduct !== undefined && listProduct.length > 0) {
     return (
       <div>
-        <table>
+        <table className="maincard">
           <thead>
             <tr>
               <th>Item</th>
@@ -69,7 +90,11 @@ function OrderTable({ page }) {
                       `${userType}_${page}__element-order-table-quantity-${index}`
                     }
                   >
-                    {item.quantity}
+                    {
+                      item.SalesProduct !== undefined
+                        ? item.SalesProduct.quantity
+                        : item.quantity
+                    }
                   </td>
                   <td>
 
@@ -86,9 +111,13 @@ function OrderTable({ page }) {
                       `${userType}_${page}__element-order-table-sub-total-${index}`
                     }
                   >
-                    {(item.quantity * item.price).toLocaleString('pt-BR', {
-                      minimumFractionDigits: 2,
-                    })}
+                    { item.SalesProduct !== undefined
+                      ? (item.SalesProduct.quantity * item.price)
+                        .toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+                        .toString().replace('.', ',')
+                      : (item.quantity * item.price).toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                      }).toString().replace('.', ',')}
                   </td>
                   {page === 'checkout' && (
                     <td>
@@ -116,12 +145,9 @@ function OrderTable({ page }) {
               <span
                 data-testid={ `${userType}_${page}__element-order-total-price` }
               >
-                {page === 'checkout'
-                  ? totalPrice.replace('.', ',')
-                  // totalPrice.toLocaleString('pt-BR', {
-                // minimumFractionDigits: 2,
-                  // })
-                  : listProduct[0].totalPrice.replace('.', ',')}
+                {
+                  totalPriceState
+                }
               </span>
             </p>
           )}
@@ -130,12 +156,23 @@ function OrderTable({ page }) {
     );
   }
   return (
-    <p>Your cart is empty</p>
+    <>
+      <p>Your cart is empty</p>
+      <h1>Loading</h1>
+    </>
   );
 }
 
 OrderTable.propTypes = {
   page: PropTypes.string.isRequired,
+  saleProducts: PropTypes.shape({
+    products: PropTypes.arrayOf(),
+    totalPrice: PropTypes.string,
+  }),
+};
+
+OrderTable.defaultProps = {
+  saleProducts: {},
 };
 
 export default OrderTable;

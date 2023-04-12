@@ -6,13 +6,26 @@ import useLocalStorage from '../../Utils/useLocalStorage';
 export default function LoginButton() {
   const { getAPI, email, password, setMessageHidden, resetForm } = useContext(AppContext);
   const navigate = useNavigate();
-  const setUserStorage = useLocalStorage('user')[1];
-  // const setCartStorage = useLocalStorage('cart', {
-  //   products: [],
-  // });
+  const [userStorage, setUserStorage] = useLocalStorage('user');
 
   const emailValid = /\S+@\S+\.\S+/.test(email);
   const minNumber = 6;
+  const customerDefaultPath = 'customer/products';
+  const sellerDefaultPath = 'seller/orders';
+  const adminDefaultPath = 'admin/manage';
+
+  useEffect(() => {
+    const setLoginStorage = userStorage || {};
+    if (setLoginStorage.role === 'customer') {
+      navigate(`/${customerDefaultPath}`);
+    }
+    if (setLoginStorage.role === 'seller') {
+      navigate(`/${sellerDefaultPath}`);
+    }
+    if (setLoginStorage.role === 'administrador') {
+      navigate(`/${adminDefaultPath}`);
+    }
+  }, [navigate]);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -28,6 +41,9 @@ export default function LoginButton() {
       setUserStorage(response.data);
       if (response.data.role === 'customer') {
         navigate('/customer/products');
+      }
+      if (response.data.role === 'seller') {
+        navigate('/seller/orders');
       }
       if (response.data.role === 'administrator') {
         navigate('/admin/manage');

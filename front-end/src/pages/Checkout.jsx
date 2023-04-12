@@ -21,7 +21,7 @@ export default function Checkout() {
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [deliveryNumber, setDeliveryNumber] = useState('');
   const [vendedor, setVendedor] = useState([]);
-  const [vendedorId, setVendedorId] = useState(0);
+  const [vendedorId, setVendedorId] = useState(2);
 
   const navigate = useNavigate();
 
