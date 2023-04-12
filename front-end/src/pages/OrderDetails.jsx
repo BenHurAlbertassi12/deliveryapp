@@ -43,26 +43,49 @@ export default function OrderDetails() {
     console.log('Entregue');
   };
 
-  function buttonDeliveryCheck() {
+  function buttonDeliveryCheck() { // Visão do cliente
+    const { status } = orderData;
+    let isButtonDisabled = true;
+
+    if (status === 'Em Trânsito') isButtonDisabled = false;
+
     return (
       <button
         data-testid="customer_order_details__button-delivery-check"
         onChange={ handleButton }
         type="button"
+        disabled={ isButtonDisabled }
       >
         Marcar como entregue
       </button>
     );
   }
 
-  function buttonDispatchCheck() {
+  function buttonDispatchCheck() { // Visão do vendedor
+    const { status } = orderData;
+    let message = 'Saiu para entrega';
+    let isButtonDisabled = false;
+    switch (status) {
+    case 'Pendente':
+      message = 'Para preparo';
+      isButtonDisabled = false;
+      break;
+    case 'Preparando' || 'Em Trânsito' || 'Entregue':
+      message = 'Para preparo';
+      isButtonDisabled = true;
+      break;
+
+    default:
+      break;
+    }
     return (
       <button
         data-testid="seller_order_details__button-dispatch-check"
         onChange={ handleButton }
         type="button"
+        disabled={ isButtonDisabled }
       >
-        Saiu para entrega
+        { message }
       </button>
     );
   }
@@ -70,6 +93,7 @@ export default function OrderDetails() {
   if (orderData === undefined) { return <h1>Loading</h1>; }
   if (orderData !== undefined) {
     const { id, saleDate, status, seller: { name } } = orderData;
+    console.log(status);
     return (
       <main>
         <Navbar />
@@ -86,7 +110,7 @@ export default function OrderDetails() {
             ? `${customerDTI}element-order-details-label-order-date`
             : 'seller_order_details__element-order-details-label-order-date' }
         >
-          {saleDate}
+          {new Date(saleDate).toLocaleDateString('en-GB')}
         </h4>
         { pathname.split('/')[1] === 'customer'
           ? <h4 data-testid={ dTISellerName }>{name}</h4>

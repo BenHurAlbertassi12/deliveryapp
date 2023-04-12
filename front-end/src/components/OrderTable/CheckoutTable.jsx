@@ -19,10 +19,12 @@ function OrderTable({ page, saleProducts }) {
   const setCartStorage = useLocalStorage('cart')[1];
 
   useEffect(() => {
-    if (Object.keys(saleProducts).length !== 0) { // Req 25 e 30
+    if (Object.keys(saleProducts).length !== 0) { // Req 25 e 30, tela de detalhes de pedidos (cliente e vendedor)
       const { products, totalPrice } = saleProducts;
       setlistProduct(products);
-      setTotalPrice(totalPrice);
+      setTotalPrice(totalPrice.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      }).toString().replace('.', ','));
     }
 
     if (Object.keys(saleProducts).length === 0) {
