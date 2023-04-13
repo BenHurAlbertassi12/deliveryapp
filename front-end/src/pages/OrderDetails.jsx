@@ -8,7 +8,7 @@ import APIFetch from '../Utils/API';
 export default function OrderDetails() {
   const { pathname } = useLocation();
   const [orderData, setOrderData] = useState();
-  const statuses = ['Pendente', 'Preparando', 'Em Trânsito', 'Entregue '];
+  const statuses = ['Pendente', 'Preparando', 'Em Trânsito', 'Entregue'];
 
   const customerDTI = 'customer_order_details__';
   const sellerDTI = 'seller_order_details__';
@@ -86,11 +86,13 @@ export default function OrderDetails() {
       isPreparingButtonDisabled = true;
       isDispatchButtonDisabled = false;
       break;
-    case statuses[2] || 'Entregue':
+    case 'Entregue':
       isPreparingButtonDisabled = true;
       isDispatchButtonDisabled = true;
       break;
     default:
+      isDispatchButtonDisabled = true;
+      isPreparingButtonDisabled = true;
       break;
     }
 

@@ -11,7 +11,7 @@ SalesRoutes.post('/user/orders', (req, res) => {
     getUserOrders(req, res);
 });
 
-SalesRoutes.get('/seller/orders', (req, res) => {
+SalesRoutes.post('/seller/orders', (req, res) => {
     getSellerSales(req, res);
 });
 

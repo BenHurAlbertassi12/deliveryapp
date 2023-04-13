@@ -34,7 +34,7 @@ function Navbar() {
             <HiHome />
           </Link>) : '' }
         <Link
-          to={ pathname.split('/')[1] === 'customer'
+          to={ user.role === 'customer'
             ? '/customer/orders' : '/seller/orders' }
           data-testid="customer_products__element-navbar-link-orders"
         >

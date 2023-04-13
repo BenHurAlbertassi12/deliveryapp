@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import APIFetch from '../Utils/API';
@@ -12,16 +13,31 @@ function CardDetails() {
   const { id, token } = user || {};
 
   // datatest
-  const dataTestidID = 'customer_orders__element-order-id-';
-  const dataTestidStatus = 'customer_orders__element-delivery-status-';
-  const dataTestidDate = 'customer_orders__element-order-date-';
-  const dataTestidPrice = 'customer_orders__element-card-price-';
+  const { pathname } = useLocation();
+  const path = pathname.split('/')[1];
+  const dataTestidID = `${path}_orders__element-order-id-`;
+  const dataTestidStatus = `${path}_orders__element-delivery-status-`;
+  const dataTestidDate = `${path}_orders__element-order-date-`;
+  const dataTestidPrice = `${path}_orders__element-card-price-`;
+
+  const status = {
+    Pendente: { color: '#d79a00', fontWeight: '900' },
+    Preparando: { color: '#243763', fontWeight: '900' },
+    'Em Trânsito': { color: '#5D3891', fontWeight: '900' },
+    Entregue: { color: '#367E18', fontWeight: '900' },
+  };
 
   const fetchSales = async () => {
     const header = { headers: { authorization: token } };
+    if (path === 'customer') {
+      const { data } = await APIFetch('post', 'user/orders', { id }, header);
+      setOrders(data);
+    }
+    if (path === 'seller') {
+      const { data } = await APIFetch('post', 'seller/orders', { id }, header);
+      setOrders(data);
+    }
     // const carrinho = JSON.parse(localStorage.getItem('cart'));
-    const { data } = await APIFetch('post', 'user/orders', { id }, header);
-    setOrders(data);
   };
 
   useEffect(() => {
@@ -47,6 +63,7 @@ function CardDetails() {
     const numberWithZeros = String(num).padStart(number, '0');
     return numberWithZeros;
   }
+
   return (
     <main>
       <Navbar />
@@ -54,18 +71,14 @@ function CardDetails() {
         <h3>Meus pedidos</h3>
         {orders.map((order) => (
           <div key={ order.id } className="cardetails">
-            <Link to={ `/customer/orders/${order.id} ` }>
+            <Link to={ `/${path}/orders/${order.id} ` }>
               <p data-testid={ `${dataTestidID}-${order.id}` }>
                 <strong> Pedido:</strong>
                 { addZeros(order.id) }
               </p>
-
               <p data-testid={ `${dataTestidStatus}-${order.id}` }>
-                {order.status === 'Pendente'
-                  ? <div style={ { color: '#d79a00', fontWeight: '900' } }>Pendente</div>
-                  : <div style={ { color: '#539165', fontWeight: '900' } }>Entregue</div>}
+                <div style={ status[order.status] }>{order.status}</div>
               </p>
-
               <p>
                 <strong> Data:</strong>
                 <span data-testid={ `${dataTestidDate}-${order.id}` }>
