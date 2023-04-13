@@ -13,7 +13,11 @@ const APIFetch = async (method, endpoint, payload, headers = '') => {
     const data = await axios.put(path, payload);
     return data;
   }
-
+  case 'patch':
+  {
+    const data = await axios.patch(path, payload);
+    return data;
+  }
   default: {
     const data = await axios.get(path);
     return data;
