@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable/CheckoutTable';
 import APIFetch from '../Utils/API';
-// import AppContext from '../context/Context';
+
 // R30
 export default function OrderDetails() {
   const { pathname } = useLocation();
@@ -26,6 +26,13 @@ export default function OrderDetails() {
   useEffect(() => {
     getOrderInfo();
   });
+
+  // adicionar zeros a esquerda do pedido
+  function addZeros(num) {
+    const number = 4;
+    const numberWithZeros = String(num).padStart(number, '0');
+    return numberWithZeros;
+  }
 
   async function handleButton(event) { // R32
     switch (event.target.id) {
@@ -115,9 +122,9 @@ export default function OrderDetails() {
   if (orderData !== undefined) {
     const { id, saleDate, status, seller: { name } } = orderData;
     return (
-      <main className="maincard details">
+      <main>
         <Navbar />
-        <section className="orderdetails">
+        <div className="maincard details">
           <h4
             data-testid={ pathname.split('/')[1] === 'customer' // divide em 6 partes: / customer / orders / :id
               ? `${customerDTI}element-order-details-label-order-id`
@@ -143,7 +150,7 @@ export default function OrderDetails() {
             ? customerButton()
             : sellerButtons() }
           <OrderTable page="order_details" saleProducts={ orderData } />
-        </section>
+        </div>
 
       </main>
     );
