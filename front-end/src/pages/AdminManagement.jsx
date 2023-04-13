@@ -51,10 +51,11 @@ export default function AdminManagement() {
     }
   };
   return (
-    <div id="admin-management-register-container">
-      <h4>Cadastrar novo usuário</h4>
+    <main className="login">
+      <h2>Cadastrar novo usuário</h2>
       <form
         onSubmit={ handleSubmit }
+        className="boxadmin"
       >
         <RegisterInputName />
         <EmailInput />
@@ -63,6 +64,6 @@ export default function AdminManagement() {
         <RegisterButton />
         <ErrorMessage />
       </form>
-    </div>
+    </main>
   );
 }

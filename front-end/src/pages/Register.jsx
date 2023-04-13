@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-max-depth */
 import React, { useState, useContext, useCallback } from 'react';
+import { BsArrowLeftShort } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
@@ -84,11 +85,13 @@ function Register() {
       }
     }
   };
-
+  const routeChange = () => {
+    navigate('/login');
+  };
   return (
     <main className="login">
-      <h1> Register</h1>
-      <form onSubmit={ handleSubmit } className="formRegister">
+      <h1 style={ { marginTop: '50px' } }> Register</h1>
+      <form onSubmit={ handleSubmit } className="form formRegister">
         <section className="boxregister">
           <label htmlFor="common_register__input-name">
             Nome
@@ -136,6 +139,15 @@ function Register() {
         >
           {error}
         </div>
+
+        <button
+          type="button"
+          onClick={ routeChange }
+          className="button-register"
+        >
+          <BsArrowLeftShort />
+          Sign in
+        </button>
       </form>
     </main>
   );

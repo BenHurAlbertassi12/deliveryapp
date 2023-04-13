@@ -24,7 +24,10 @@ function OrderCard({ order }) {
           <p>{id}</p>
         </div>
         <div data-testid={ `${user.role}_orders__element-delivery-status-${id}` }>
-          <p>{status}</p>
+          <p>
+            {status}
+            {' '}
+          </p>
         </div>
         <div data-testid={ `${user.role}_orders__element-order-date-${id}` }>
           <p>{new Date(saleDate).toLocaleDateString('en-GB')}</p>

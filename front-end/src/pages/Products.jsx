@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/OrderTable/ProductCard';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
 import useLocalStorage from '../Utils/useLocalStorage';
+import '../styles/products.css';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -44,30 +46,35 @@ function Products() {
   }
 
   return (
-    <div>
+    <main>
       <Navbar />
-      <div>
-        {products.map((product) => (
-          <ProductCard
-            product={ product }
-            dataSize={ products.length } // Adicionado para criação de um array na ProductCard
-            key={ product.id }
-          />
-        ))}
+      <div className="maincard">
+        <section className="gridcard">
+          {products.map((product) => (
+            <ProductCard
+              product={ product }
+              dataSize={ products.length } // Adicionado para criação de um array na ProductCard
+              key={ product.id }
+            />
+          ))}
+        </section>
       </div>
       <button
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ () => handleCartBtn() }
         disabled={ disable }
+        className="cartButtom"
       >
-        Ver carrinho: R$
+        <AiOutlineShoppingCart className="icon" />
+        {' '}
+        R$
         {' '}
         <span data-testid="customer_products__checkout-bottom-value">
           { `${sumTotal.toString().replace('.', ',')}` }
         </span>
       </button>
-    </div>
+    </main>
   );
 }
 

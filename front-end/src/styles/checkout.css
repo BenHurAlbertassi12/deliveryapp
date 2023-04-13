@@ -1,0 +1,183 @@
+.tablecheck {
+  align-items: flex-start;
+  background-color: #eee;
+  display: flex;
+  font-family: Merriweather , serif;
+  font-size: 12px;
+  height: auto;
+  margin-left: 5px;
+  margin-top: auto;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  width: 247px;
+}
+
+.tablecheck::-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+}
+
+/* .tablecheck::-webkit-scrollbar:vertical {
+    background: hsl(225, 15%, 5%);
+    border-radius: 2px;
+    height: 3px;
+} */
+
+.tablecheck::-webkit-scrollbar-thumb {
+  background: hsl(225, 15%, 5%);
+  border-radius: 2px;
+  height: 2px;
+}
+
+.borderadius {
+  background-color: var(--cor-principal);
+  border: none;
+  border-radius: 5px;
+  float: right;
+  font-family: Montserrat , sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 2px;
+  margin-left: 5px;
+  outline: none;
+  padding: 15px;
+}
+
+.formcheck {
+  display: flex;
+  flex-direction: column;
+  font-family: Merriweather , serif;
+  font-size: 12px;
+  height: 400px;
+  margin-left: 5px;
+  margin-top: 20px;
+  width: 240px;
+}
+
+.details h1 {
+  font-size: 13px;
+  text-align: center;
+}
+
+.carvazio {
+  font-family: Montserrat , sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 70px;
+  text-align: center;
+}
+
+tr, td {
+  margin: 5px;
+  padding: 3px;
+}
+
+th {
+  padding: 10px;
+}
+
+td {
+  height: auto;
+}
+
+.cardetails span {
+  font-family: Montserrat , sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.checktotal {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+select {
+  background-color: #eee;
+  border: none;
+  font-family: Merriweather , serif;
+  font-size: 12px;
+  margin-top: 20px;
+  outline: none;
+  padding: 10px;
+}
+
+.continue {
+  margin: 5px 0 10px 10px;
+}
+
+.continue .icon {
+  margin: 5px 5px 0;
+}
+
+.continue:hover .icon {
+  color: var(--cor-principal);
+}
+
+.id {
+  color: var(--cor-principal);
+  font-weight: 900;
+}
+
+.delete {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 2px;
+}
+
+@media screen and ( max-width : 780px ) {
+
+  .tablecheck {
+    align-content: center;
+    align-items: center;
+    font-size: 18px;
+    justify-content: flex-start;
+    width: 414px;
+  }
+
+  tr, td {
+    margin: 10px;
+    padding: 5px;
+  }
+
+  th {
+    padding: 5px;
+  }
+
+  td {
+    height: auto;
+  }
+
+  .borderadius, .formcheck, .checktotal {
+    font-size: 18px;
+  }
+
+  .checktotal, .total {
+    font-size: 18px;
+  }
+
+  .formcheck {
+    width: 380px;
+  }
+
+  .continue {
+    margin: 5px 0 10px 10px;
+    width: 100%;
+  }
+
+}
+
+/* @media screen and ( max-width : 412px ) {
+
+} */
+
+@media screen and ( max-width : 375px ) {
+
+  .user {
+    width: 200px;
+  }
+}
+
+/* @media screen and ( max-width : 360px ) {
+
+} */

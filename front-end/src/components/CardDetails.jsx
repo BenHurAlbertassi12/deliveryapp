@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import APIFetch from '../Utils/API';
 import useLocalStorage from '../Utils/useLocalStorage';
 // import AppContext from '../context/Context';
+import '../styles/details.css';
 
 function CardDetails() {
   const [orders, setOrders] = useState([]);
@@ -47,38 +48,41 @@ function CardDetails() {
     return numberWithZeros;
   }
   return (
-    <div>
+    <main>
       <Navbar />
-      <h3>Meus pedidos</h3>
-      {orders.map((order) => (
-        <div key={ order.id }>
-          <Link to={ `/customer/orders/${order.id} ` }>
-            <p data-testid={ `${dataTestidID}-${order.id}` }>
-              Pedido:
-              { addZeros(order.id) }
-            </p>
+      <div className="maincard details">
+        <h3>Meus pedidos</h3>
+        {orders.map((order) => (
+          <div key={ order.id } className="cardetails">
+            <Link to={ `/customer/orders/${order.id} ` }>
+              <p data-testid={ `${dataTestidID}-${order.id}` }>
+                <strong> Pedido:</strong>
+                { addZeros(order.id) }
+              </p>
 
-            <p data-testid={ `${dataTestidStatus}-${order.id}` }>
-              Status:
-              {order.status}
-            </p>
+              <p data-testid={ `${dataTestidStatus}-${order.id}` }>
+                {order.status === 'Pendente'
+                  ? <div style={ { color: '#d79a00', fontWeight: '900' } }>Pendente</div>
+                  : <div style={ { color: '#539165', fontWeight: '900' } }>Entregue</div>}
+              </p>
 
-            <p>
-              Data:
-              <span data-testid={ `${dataTestidDate}-${order.id}` }>
-                { convertDate(order.saleDate) }
+              <p>
+                <strong> Data:</strong>
+                <span data-testid={ `${dataTestidDate}-${order.id}` }>
+                  { convertDate(order.saleDate) }
 
-              </span>
-            </p>
+                </span>
+              </p>
 
-            <p data-testid={ `${dataTestidPrice}-${order.id}` }>
-              Preço total:
-              { convertPrice(order.totalPrice) }
-            </p>
-          </Link>
-        </div>
-      ))}
-    </div>
+              <p data-testid={ `${dataTestidPrice}-${order.id}` } className="total">
+                Preço total:
+                { convertPrice(order.totalPrice) }
+              </p>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </main>
   );
 }
 

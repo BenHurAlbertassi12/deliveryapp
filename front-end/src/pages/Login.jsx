@@ -5,6 +5,7 @@ import LoginButton from '../components/loginPage/LoginButton';
 import RegisterButton from '../components/loginPage/RegisterButton';
 import PasswordInput from '../components/PasswordInput';
 import AppContext from '../context/Context';
+import Logo from '../images/bardrink.png';
 import '../styles/appmock.css';
 
 // Req2
@@ -14,10 +15,15 @@ export default function Login() {
 
   return (
     <main className="login">
+      <div className="logo">
+        <img src={ Logo } alt="" />
+      </div>
       <h1> Sign in</h1>
+      <p className="sub">Faça seu login para fazer um pedido.</p>
       <p />
       <form
         onSubmit={ handleButtonClick }
+        className="form"
       >
         <div className="margintop">
           <EmailInput />

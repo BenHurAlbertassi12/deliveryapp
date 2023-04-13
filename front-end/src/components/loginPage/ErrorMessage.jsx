@@ -18,6 +18,7 @@ export default function ErrorMessage() {
         ? 'common_login__element-invalid-email'
         : 'admin_manage__element-invalid-register' }
       hidden={ isMessageHidden }
+      className="error"
     >
       {/* Elemento que deve ser oculto (Mensagem de erro) */}
       {showMessage()}

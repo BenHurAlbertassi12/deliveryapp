@@ -1,3 +1,16 @@
+:root {
+
+  --cor-principal: #d36b00;
+
+  --cor-sedundaria: #e6d2aa;
+
+  --cor-text-white: #f1efdc;
+
+  --cor-text-black: rgb(21, 21, 21);
+
+  --cor-bg-nav: black;
+}
+
 body {
   background: linear-gradient(90deg, black 0%, #1e1f1f 39%, #303030 100%);
   font-family: -apple-system , BlinkMacSystemFont , Helvetica Neue , sans-serif;
@@ -10,4 +23,4 @@ code {
   font-family: source-code-pro , Menlo , Monaco , Consolas , Courier New , monospace;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Darker+Grotesque:wght@700&family=Montserrat+Subrayada&family=Montserrat:wght@400;500;600;800&family=Mulish:wght@400;800&family=Nanum+Myeongjo:wght@700&family=Playfair+Display:ital,wght@0,500;1,600&family=Poppins:wght@400;700;800;900&family=Quicksand:wght@500&family=Tilt+Warp&family=Work+Sans:wght@700&family=Yanone+Kaffeesatz&display=swap') ;
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Darker+Grotesque:wght@700&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&family=Montserrat+Subrayada&family=Montserrat:wght@400;500;600;800&family=Mulish:wght@400;500;600;800&family=Nanum+Myeongjo:wght@700&family=Playfair+Display:ital,wght@0,500;1,600&family=Poppins:wght@400;700;800;900&family=Quicksand:wght@500&family=Tilt+Warp&family=Work+Sans:wght@700&family=Yanone+Kaffeesatz&display=swap') ;

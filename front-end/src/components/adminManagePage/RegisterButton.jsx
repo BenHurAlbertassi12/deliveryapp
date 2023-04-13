@@ -19,6 +19,7 @@ export default function RegisterButton() {
       data-testid="admin_manage__button-register"
       type="submit"
       disabled={ !(password.length >= no6 && emailValid && fullname.length >= no12) }
+      className="button"
     >
       Cadastrar
     </button>

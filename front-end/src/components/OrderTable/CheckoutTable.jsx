@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
-// import { useLocation } from 'react-router';
+import { MdDelete } from 'react-icons/md';
 import useLocalStorage from '../../Utils/useLocalStorage';
 import AppContext from '../../context/Context';
 
@@ -33,7 +33,7 @@ function OrderTable({ page, saleProducts }) {
       setlistProduct(cart);
       setCartStorage(listProduct);
     }
-  }, []);
+  }, [getCart, listProduct, saleProducts, setCartStorage, setlistProduct, totalValues]);
 
   useEffect(() => {
     if (Object.keys(saleProducts).length === 0) {
@@ -45,7 +45,9 @@ function OrderTable({ page, saleProducts }) {
       setlistProduct(cart);
       setCartStorage(listProduct);
     }
-  }, [getCart, getOrder, totalValues, page, listProduct, setCartStorage]);
+  }, [getCart,
+    getOrder,
+    totalValues, page, listProduct, setCartStorage, saleProducts, setlistProduct]);
 
   const removeIndex = (product) => {
     altQuantidade({ ...product, quantity: 0 });
@@ -54,94 +56,92 @@ function OrderTable({ page, saleProducts }) {
   if (listProduct !== undefined && listProduct.length > 0) {
     return (
       <div>
-        <table className="maincard">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Descrição</th>
-              <th>Quantidade</th>
-              <th>Valor Unitário</th>
-              <th>Sub-total</th>
-              {page === 'checkout' && <th>Remover Item</th>}
-            </tr>
-          </thead>
-          <tbody>
-            { listProduct.map((item, index) => {
-              if (item.quantity === 0) return ''; // Adicionei para que quando, algum item tiver 0 em sua quantidade, nao seja renderizado
-              return (
-                <tr key={ item.id }>
-                  <td
-                    data-testid={
-                      `${userType}_${page}__element-order-table-item-number-${index}`
-                    }
-                  >
-                    {index + 1}
-                  </td>
+        <section className="tablecheck">
+          <table>
+            {/* <thead>
+              <ThTable />
+            </thead> */}
+            <tbody>
+              { listProduct.map((item, index) => {
+                if (item.quantity === 0) return ''; // Adicionei para que quando, algum item tiver 0 em sua quantidade, nao seja renderizado
+                return (
+                  <tr key={ item.id }>
+                    <td
+                      data-testid={
+                        `${userType}_${page}__element-order-table-item-number-${index}`
+                      }
+                      className="id"
+                    >
+                      {index + 1}
+                    </td>
 
-                  <td>
-                    <p
+                    <td
                       data-testid={
                         `${userType}_${page}__element-order-table-name-${index}`
                       }
                     >
                       {item.name}
-                    </p>
-                  </td>
-                  <td
-                    data-testid={
-                      `${userType}_${page}__element-order-table-quantity-${index}`
-                    }
-                  >
-                    {
-                      item.SalesProduct !== undefined
-                        ? item.SalesProduct.quantity
-                        : item.quantity
-                    }
-                  </td>
-                  <td>
-
-                    <p
+                    </td>
+                    <td
                       data-testid={
-                        `${userType}_${page}__element-order-table-unit-price-${index}`
+                        `${userType}_${page}__element-order-table-quantity-${index}`
                       }
                     >
-                      {item.price.replace('.', ',')}
-                    </p>
-                  </td>
-                  <td
-                    data-testid={
-                      `${userType}_${page}__element-order-table-sub-total-${index}`
-                    }
-                  >
-                    { item.SalesProduct !== undefined
-                      ? (item.SalesProduct.quantity * item.price)
-                        .toLocaleString('pt-BR', { minimumFractionDigits: 2 })
-                        .toString().replace('.', ',')
-                      : (item.quantity * item.price).toLocaleString('pt-BR', {
-                        minimumFractionDigits: 2,
-                      }).toString().replace('.', ',')}
-                  </td>
-                  {page === 'checkout' && (
-                    <td>
-                      <button
-                        data-testid={
-                          `${userType}_${page}__element-order-table-remove-${index}`
-                        }
-                        type="button"
-                        onClick={ () => removeIndex(item) }
-                      >
-                        Remove
-                      </button>
+                      {
+                        item.SalesProduct !== undefined
+                          ? item.SalesProduct.quantity
+                          : item.quantity
+                      }
                     </td>
-                  )}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    <td>
+
+                      <p
+                        data-testid={
+                          `${userType}_${page}__element-order-table-unit-price-${index}`
+                        }
+                      >
+                        R$
+                        {item.price.replace('.', ',')}
+                      </p>
+                    </td>
+                    <td
+                      data-testid={
+                        `${userType}_${page}__element-order-table-sub-total-${index}`
+                      }
+                      className="b"
+                    >
+                      R$
+                      { item.SalesProduct !== undefined
+                        ? (item.SalesProduct.quantity * item.price)
+                          .toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+                          .toString().replace('.', ',')
+                        : (item.quantity * item.price).toLocaleString('pt-BR', {
+                          minimumFractionDigits: 2,
+                        }).toString().replace('.', ',')}
+                    </td>
+                    {page === 'checkout' && (
+                      <td>
+                        <button
+                          data-testid={
+                            `${userType}_${page}__element-order-table-remove-${index}`
+                          }
+                          type="button"
+                          onClick={ () => removeIndex(item) }
+                          className="delete"
+                        >
+                          <MdDelete />
+                        </button>
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
         <div>
           {listProduct.length > 0 && (
-            <p>
+            <p className="total checktotal">
               Total: R$
               {' '}
               <span
@@ -158,10 +158,7 @@ function OrderTable({ page, saleProducts }) {
     );
   }
   return (
-    <>
-      <p>Your cart is empty</p>
-      <h1>Loading</h1>
-    </>
+    <h1 className="carvazio">Your cart is empty</h1>
   );
 }
 

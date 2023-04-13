@@ -4,11 +4,13 @@ import React, {
   useState,
 } from 'react';
 import { useNavigate } from 'react-router';
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable/CheckoutTable';
 import AppContext from '../context/Context';
 import APIFetch from '../Utils/API';
 import useLocalStorage from '../Utils/useLocalStorage';
+import '../styles/checkout.css';
 
 export default function Checkout() {
   const { cart, totalValues } = useContext(AppContext);
@@ -66,16 +68,18 @@ export default function Checkout() {
     }
   };
 
+  const routeChange = () => {
+    navigate('/customer/products');
+  };
+
   return (
-    <div>
+    <main>
       <Navbar />
-      <div>
+      <div className="maincard details">
+        <h3> Finalizar pedido</h3>
         <OrderTable page="checkout" />
-        {/* <h1> Finalizar pedido</h1> */}
-      </div>
-      <div>
-        <h1> Detalhes e endereço para entrega</h1>
-        <form>
+        <form className="formcheck">
+          <h3> Detalhes e endereço para entrega</h3>
           <label htmlFor="select-seller">
             Vendedora Responsável:
             <select
@@ -94,23 +98,23 @@ export default function Checkout() {
             </select>
           </label>
           <label htmlFor="address">
-            Endereço
             <input
               type="text"
               id="address"
               data-testid="customer_checkout__input-address"
+              placeholder="Endereço"
               value={ deliveryAddress }
               onChange={ ({ target }) => setDeliveryAddress(target.value) }
               required
             />
           </label>
           <label htmlFor="address-number">
-            N:
             <input
               type="text"
               id="address-number"
               data-testid="customer_checkout__input-address-number"
               value={ deliveryNumber }
+              placeholder="Número"
               onChange={ ({ target }) => setDeliveryNumber(target.value) }
               required
             />
@@ -119,12 +123,21 @@ export default function Checkout() {
             type="submit"
             data-testid="customer_checkout__button-submit-order"
             onClick={ (event) => handleSubmitButton(event) }
+            className="borderadius"
           >
             Finalizar pedido
           </button>
+          <button
+            type="button"
+            onClick={ routeChange }
+            className="button-register continue"
+          >
+            <AiOutlineArrowLeft className="icon" />
+            continuar comprando
+          </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 

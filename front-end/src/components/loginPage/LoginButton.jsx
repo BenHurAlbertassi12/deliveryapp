@@ -25,7 +25,7 @@ export default function LoginButton() {
     if (setLoginStorage.role === 'administrador') {
       navigate(`/${adminDefaultPath}`);
     }
-  }, [navigate]);
+  }, [navigate, userStorage]);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
