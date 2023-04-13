@@ -1,5 +1,10 @@
 .details {
+  align-content: center;
+  align-items: center;
   background-color: rgb(242, 242, 242);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -46,10 +51,19 @@ h3 {
 }
 
 .orderdetails {
+  background-color: var(--cor-principal);
+  border: 1px solid #cb6703;
+  border-radius: 5px;
+  color: var(--cor-text-dark);
+  display: flex;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.4));
+  flex-direction: column;
   font-family: Montserrat , sans-serif;
   font-size: 12px;
   font-weight: 500;
-  margin-top: -60px;
+  justify-content: flex-start;
+  margin: 5px 0 0;
+  width: 90%;
 }
 
 @media screen and ( max-width : 780px ) {

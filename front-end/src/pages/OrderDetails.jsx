@@ -66,6 +66,7 @@ export default function OrderDetails() {
         type="button"
         disabled={ isButtonDisabled }
         id="deliveryButton"
+        className="button"
       >
         Marcar como entregue
       </button>
@@ -104,6 +105,7 @@ export default function OrderDetails() {
           onClick={ handleButton }
           disabled={ isPreparingButtonDisabled }
           id="preparingButton"
+          className="button"
         >
           Preparar pedido
         </button>
@@ -113,6 +115,7 @@ export default function OrderDetails() {
           type="button"
           disabled={ isDispatchButtonDisabled }
           id="dispatchButton"
+          className="button"
         >
           Saiu para Entrega
         </button>
@@ -127,33 +130,34 @@ export default function OrderDetails() {
       <main>
         <Navbar />
         <div className="maincard details">
-          <h4
-            data-testid={ pathname.split('/')[1] === 'customer' // divide em 6 partes: / customer / orders / :id
-              ? `${customerDTI}element-order-details-label-order-id`
-              : 'seller_order_details__element-order-details-label-order-id' }
-          >
-            <strong>Pedido: </strong>
-            { addZeros(id) }
-          </h4>
-          <h4
-            data-testid={ pathname.split('/')[1] === 'customer'
-              ? `${customerDTI}element-order-details-label-order-date`
-              : 'seller_order_details__element-order-details-label-order-date' }
-          >
-            {new Date(saleDate).toLocaleDateString('en-GB')}
-          </h4>
-          { pathname.split('/')[1] === 'customer'
-            ? <h4 data-testid={ dTISellerName }>{name}</h4>
-            : '' }
-          { pathname.split('/')[1] === 'customer'
-            ? <h4 data-testid={ `${customerDTI}${dTIStatus}${id}` }>{ status }</h4>
-            : <h4 data-testid={ `${sellerDTI}${dTIStatus}` }>{ status }</h4>}
+          <section className="orderdetails">
+            <h4
+              data-testid={ pathname.split('/')[1] === 'customer' // divide em 6 partes: / customer / orders / :id
+                ? `${customerDTI}element-order-details-label-order-id`
+                : 'seller_order_details__element-order-details-label-order-id' }
+            >
+              <strong>Pedido: </strong>
+              { addZeros(id) }
+            </h4>
+            <h4
+              data-testid={ pathname.split('/')[1] === 'customer'
+                ? `${customerDTI}element-order-details-label-order-date`
+                : 'seller_order_details__element-order-details-label-order-date' }
+            >
+              {new Date(saleDate).toLocaleDateString('en-GB')}
+            </h4>
+            { pathname.split('/')[1] === 'customer'
+              ? <h4 data-testid={ dTISellerName }>{name}</h4>
+              : '' }
+            { pathname.split('/')[1] === 'customer'
+              ? <h4 data-testid={ `${customerDTI}${dTIStatus}${id}` }>{ status }</h4>
+              : <h4 data-testid={ `${sellerDTI}${dTIStatus}` }>{ status }</h4>}
+          </section>
           { pathname.split('/')[1] === 'customer'
             ? customerButton()
             : sellerButtons() }
           <OrderTable page="order_details" saleProducts={ orderData } />
         </div>
-
       </main>
     );
   }
